@@ -1,0 +1,9 @@
+body {
+  color: violet;
+}
+
+.nav-logo{
+    transform: scale(1.3);
+    width: 40px;
+    margin-left: 20px;
+}

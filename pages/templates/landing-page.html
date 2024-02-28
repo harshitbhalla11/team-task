@@ -1,0 +1,15 @@
+<html>
+    <head>
+        <title>`substitute(Filename('', 'Page Title'), '^.', '\u&', '')`</title>
+        {% load bootstrap5 %}
+        {% bootstrap_css %}
+        {% bootstrap_javascript %}
+        {% load static %}
+         <link rel="stylesheet" href="{% static 'global.css' %}">  
+        
+    </head>
+    <body>
+        {% include 'navbar.html' %}
+        landing
+    </body>
+</html>
