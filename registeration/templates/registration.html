@@ -8,14 +8,18 @@
   {% load static %}
    <link rel="stylesheet" href="{% static 'global.css' %}">  
 </head>
-<body>
-<form action="/url/to/submit/" method="post" class="form">
-    {% csrf_token %}
-    {% bootstrap_form form %}
-    {% buttons %}
-        <button type="submit" class="btn btn-primary">Submit</button>
-    {% endbuttons %}
-</form>
+        <body>
+            {% include 'navbar.html' %}
+            <div class="reg-container">
+                <h1 class="reg-heading">Register</h1>
+                <form action="/url/to/submit/" method="post">
+                {% csrf_token %}
+                {% bootstrap_form form %}
+                {% buttons %}
+                    <button type="submit" class="btn btn-primary submit-btn">Submit</button>
+                {% endbuttons %}
+            </form>
+        </div>  
 
-</body>
+        </body>
 </html>

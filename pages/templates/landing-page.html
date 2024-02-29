@@ -1,6 +1,5 @@
 <html>
     <head>
-        <title>`substitute(Filename('', 'Page Title'), '^.', '\u&', '')`</title>
         {% load bootstrap5 %}
         {% bootstrap_css %}
         {% bootstrap_javascript %}
@@ -10,6 +9,16 @@
     </head>
     <body>
         {% include 'navbar.html' %}
-        landing
+       <div class="page-view">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1>Home</h1>
+                    <p>Welcome to the home page</p>
+                </div>
+            </div>
+            landing
+        </div>
+        
+        {% include 'footer.html' %}
     </body>
-</html>
+</html> 
