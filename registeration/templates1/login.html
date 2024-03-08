@@ -1,0 +1,45 @@
+<html>
+  <head>
+    {% load bootstrap5 %} {% bootstrap_css %} {% bootstrap_javascript %} {% load
+    static %}
+    <link rel="stylesheet" href="{% static 'global.css' %}" />
+  </head>
+
+  <body>
+    {% include 'navbar.html' %}
+    <section class="position-relative py-4 py-xl-5">
+      <div class="container">
+        <div class="row mb-5">
+          <div class="col-md-8 col-xl-6 text-center mx-auto">
+            <h2>Log in</h2>
+          </div>
+        </div>
+        <div class="row d-flex justify-content-center">
+          <div class="col-md-6 col-xl-4">
+            <div class="card mb-5">
+              <div class="card-body d-flex flex-column align-items-center">
+                <div
+                  class="bs-icon-xl bs-icon-circle bs-icon-primary bs-icon my-4 login-image-container"
+                >
+                  <img
+                    class="login-image-logo"
+                    src="{% static 'images/teamtalklogo.png' %}"
+                    alt=""
+                  />
+                </div>
+                <form class="text-center" method="POST">
+                  {% csrf_token %}
+                  {% bootstrap_form form %}
+                  </div>
+                  <div class="mb-3">
+                    <button class="app-button" type="submit">Login</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>

@@ -1,37 +1,53 @@
 <!--used bootstrap5 template for navbar-->
 
 <html>
-    <head>
-         {% load bootstrap5 %}
-         {% bootstrap_css %}
-         {% bootstrap_javascript %}
-         {% load static %}
-          <link rel="stylesheet" href="{% static 'global.css' %}">  
-        </head>
-        
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark nav-bar-design">
-    <img class="nav-logo ml-3" src="{% static 'images/teamtalklogo.png' %}" alt="logo">
+  <head>
+    {% load bootstrap5 %} {% bootstrap_css %} {% bootstrap_javascript %} {% load static %}
+    <link rel="stylesheet" href="{% static 'global.css' %}" />
+  </head>
 
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav nav-content-container">
-          <li class="nav-item ">
-            <a class="nav-link" href="#">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Groups</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">My tasks</a>
-          </li>
-        </ul> 
-      </div>
-      <div class="navbar-nav ml-auto nav-button-container">
-        <a href="/login" class="btn btn-outline-light mr-2 login-button">Login</a>
-        <a href="/register" class="btn btn-light register-button">Register</a>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark nav-bar-design">
+    <img
+      class="nav-logo ml-3"
+      src="{% static 'images/teamtalklogo.png' %}"
+      alt="logo"
+    />
+
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-toggle="collapse"
+      data-target="#navbarNav"
+      aria-controls="navbarNav"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav nav-content-container">
+        <li class="nav-item">
+          <a class="nav-link" href="/">Home</a>
+        </li>
+        {% if request.user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link" href="#">Groups</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">My tasks</a>
+        </li>
+        {% endif %}
+      </ul>
     </div>
-    </nav>
-    
+    <div class="navbar-nav ml-auto nav-button-container">
+      {% if not request.user.is_authenticated %}
+      <a href="/login" class="btn btn-outline-light mr-2 login-button">Login</a>
+      <a href="/signup" class="btn btn-light register-button">Register</a>
+      {% endif %} 
+      {% if request.user.is_authenticated %}
+      <a href="/logout" class="btn btn-outline-light mr-2 login-button" 
+        >Logout</a>
+      {% endif %}
+    </div>
+  </nav>
 </html>

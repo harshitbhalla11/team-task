@@ -19,13 +19,18 @@ from pages.views import landing_page, home_page
 from django.contrib.auth import views as authentication_view
 from django.contrib import admin
 from django.urls import path,include
+from django.contrib.auth.views import LoginView
+from django.views.generic import TemplateView
+from django.contrib.auth.decorators import login_required
+from .views import entry_views 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('accounts/', include('django.contrib.auth.urls')),
-    path('register/', reg_view, name='register'),
-    path('login/', login_view, name='login_view'),
-    path('', landing_page, name='landing_page'),
-    path('home/', home_page, name='home_page'),
-    
+    # path('accounts/', include('django.contrib.auth.urls')),
+    # path('register/', reg_view, name='register'),
+    # path('login/', LoginView.as_view(), name='login_view'),
+    path('', include(("signupLogin.urls","signupLogin"),"signupLogin")),
+    # path('home/', home_page, name='home_page'),
+    # path('landing/', TemplateView.as_view(template_name='landing-page.html'), name='landing'),
+    path('', entry_views, name='home'),
 ]

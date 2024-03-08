@@ -6,3 +6,4 @@ def landing_page(request):
 
 def home_page(request):
     return render(request, 'home-page.html')
+

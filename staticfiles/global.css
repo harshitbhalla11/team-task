@@ -36,7 +36,14 @@
 .reg-container{
   max-width: 40%;
   margin: auto;
-  margin-top: 100px;
+  margin-top: 50px;
+  border: #111174 2px solid;
+  border-radius: 10px;
+  padding: 25px;
+}
+.login-container{
+  max-width: 40%;
+  margin: auto;
   border: #111174 2px solid;
   border-radius: 10px;
   padding: 25px;
@@ -53,14 +60,13 @@
   text-align: center;
   margin-bottom: 20px;
   color: #212154;
-  text-decoration: underline;
 }
 
 .reg-heading{
   text-align: center;
   margin-bottom: 20px;
   color: #212154;
-  text-decoration: underline;
+  /* text-decoration: underline; */
   
 }
 
@@ -74,3 +80,69 @@
 .page-view{
   min-height: 450px;
 }
+.login-image-container{
+  border-radius: 10px;
+  width: 140px;
+  background-color: black;
+  display: flex;
+}
+.login-image-logo{
+  max-width: 100px;
+  margin: auto;
+}
+.app-button{
+  border-radius: 10px;
+  background-color: #111174;
+  color: white;
+  padding: 5px 20px;
+  
+}
+.app-button:hover{
+  background-color: #0b0bb6;
+  color: white;
+}
+
+.card-images-home{
+  height: 96px;
+  width: 96px;
+  margin: auto;
+  margin-top: 10px;
+}
+
+.heading-font {
+  font-family: "Madimi One", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 35px;
+  margin-top: 120px;
+}
+.landing-img{
+  max-height: 94vh;
+}
+
+.image-text {
+  
+  color: white; 
+  background-color: #111174;
+  padding: 5px; 
+  border-radius: 50px;
+  font-size: 40px;
+  text-align: center;
+  max-width: 200px;
+
+}
+.text-container{
+  align-items: center;
+  margin-top: 100px;
+}
+.logo-container-heading{
+  background-color: #111174;
+  padding: 5px; 
+  border-radius: 50px;
+  font-size: 40px;
+  text-align: center;
+  max-width: 200px;
+  max-h
+}
+
+
