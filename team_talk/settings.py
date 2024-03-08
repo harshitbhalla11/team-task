@@ -35,7 +35,6 @@ ALLOWED_HOSTS = ['*']
 INSTALLED_APPS = [
     'signupLogin',
     'pages',
-    'registeration',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

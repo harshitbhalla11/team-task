@@ -1,5 +1,4 @@
 
-# from registeration.views import register as reg_view, login as login_view
 # from pages.views import landing_page, home_page
 # from django.contrib.auth import views as authentication_view
 # from django.contrib import admin
