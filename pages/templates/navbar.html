@@ -45,6 +45,9 @@
       <a href="/signup" class="btn btn-light register-button">Register</a>
       {% endif %} 
       {% if request.user.is_authenticated %}
+      <li class="nav-item mx-4">
+        <a class="nav-link active" href="#">Hi {{user.username}}</a>
+      </li>
       <a href="/logout" class="btn btn-outline-light mr-2 login-button" 
         >Logout</a>
       {% endif %}

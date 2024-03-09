@@ -21,8 +21,8 @@ from django.urls import path,include
 from django.contrib.auth.views import LoginView
 from django.views.generic import TemplateView
 from django.contrib.auth.decorators import login_required
-from .views import entry_views 
-
+from .views import entry_views, create_group_view
+from .views import fetch_users_list
 urlpatterns = [
     path('admin/', admin.site.urls),
     # path('accounts/', include('django.contrib.auth.urls')),
@@ -32,4 +32,7 @@ urlpatterns = [
     # path('home/', home_page, name='home_page'),
     # path('landing/', TemplateView.as_view(template_name='landing-page.html'), name='landing'),
     path('', entry_views, name='home'),
+    path('creategroup/', create_group_view, name='creategroup'),
+    # path('search_users/', search_users, name='search_users'),
+    path('fetch_users_list/', fetch_users_list, name='fetch_users_list'),
 ]

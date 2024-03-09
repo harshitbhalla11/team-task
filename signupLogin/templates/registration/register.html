@@ -16,6 +16,10 @@
         <form method="POST">
             {% csrf_token %}
             {% bootstrap_form form %}
+            <div class="form-check form-switch admin-checkbox-container">
+                <input class="form-check-input admin-checkbox" type="checkbox" name="adminUserCheckbox" id="adminUserCheckbox">
+                <label class="form-check-label label-checkbox" for="flexSwitchCheckDefault">Make Admin user.</label>
+              </div>
             {% buttons %}
                 <button type="submit" class="btn btn-primary submit-btn">Submit</button>
             {% endbuttons %}

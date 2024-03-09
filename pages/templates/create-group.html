@@ -1,0 +1,157 @@
+<html>
+    <head>
+  {% load static %}
+  {% load bootstrap_icons %}
+   <link rel="stylesheet" href="{% static 'global.css' %}">  
+   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+   
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Madimi+One&display=swap" rel="stylesheet">
+   
+</head>
+    <body>
+        {% include 'navbar.html' %}
+    <div class="create-group-container">
+        <h1 class="mt-2 text-center heading-font">Create a New Group<img
+            class="create-group-img"
+            src="{% static 'images/create-group.png' %}"
+            alt="Card image cap"
+          /></h1>
+        <form action="/create_group/" method="post">
+            {% csrf_token %}
+            <div class="row form-group my-3">
+                <h5 class="col-md-3 text-center " for="group_name">Group Name:</h5>
+                <div class="col-md-8">
+                <input type="text" class="col-md-6 form-control" id="group_name" name="group_name" required>
+                </div>
+            </div>
+            <div class="row form-group my-3">
+                <h5 class="col-md-3 text-center" for="description">Description:</h5>
+                <div class="col-md-8">
+                    <textarea class="form-control" id="description" name="description" rows="4" required></textarea>
+                </div>
+            </div>
+            <div class="select-user-container my-3">
+                <div class="dropdown my-3">
+                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Select Users
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="userDropdown">
+                    </div>
+                </div>
+                <label>Selected users:</label>
+                <div id="selectedGroupMember">
+            </div> 
+            </div>
+            <div class="visibility-container my-3">
+            <h5>Select visibility</h5>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="visibility" id="public" value="public">
+                <label class="form-check-label" for="public">
+                    <span class="visibility-options">Public</span> (Group visible to everyone)
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="visibility" id="private" value="private">
+                <label class="form-check-label" for="private">
+                    <span class="visibility-options">Private </span>(Visible Only to the group Members)
+                </label>
+            </div>
+        </div>
+
+        <div id="selectedUsers"></div>
+        <div class="create-submit-container">
+            <button type="submit" class="btn btn-primary mt-2 create-group-submit">Create Group</button>
+        </div>    
+    </form>
+    </div>
+        <script>
+            let users = null;
+            let selectedUsers = [];
+            //fetch data for all users
+            fetch('/fetch_users_list/')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    users = data.users;
+                    console.log('Fetched users:', users);
+                    initializeDropdown(users);
+                })
+                .catch(error => {
+                    console.error('Error fetching user list:', error);
+                });
+            
+            function initializeDropdown(users) {
+                const userDropdownElement = document.getElementById('userDropdown');
+                if (!userDropdownElement) {
+                    console.error('User dropdown element not found');
+                    return;
+                }
+                
+                userDropdownElement.innerHTML = '';
+        
+                users.forEach(user => {
+                    const listItem = document.createElement('a');
+                    listItem.classList.add('dropdown-item');
+                    listItem.href = '#';
+                    listItem.textContent = user.username;
+                    listItem.dataset.id = user.id;
+                    
+                    userDropdownElement.appendChild(listItem);
+
+
+                    listItem.addEventListener('click', function(event) {
+                        event.preventDefault();
+                        const selectedUser = {
+                            id: user.id,
+                            username: user.username
+                        };
+                        const selectedId = parseInt(user.id);
+                        if (!selectedUsers.some(u => u.id === selectedId)) {
+                            selectedUsers.push(selectedUser);
+                            console.log('Selected User:', selectedUser);
+                            console.log('Selected Users Array:', selectedUsers);
+                            updateselectedGroupMember();
+                        } else {
+                            console.log('User already selected:', selectedUser);
+                        }
+                    });
+                });
+            }
+
+            function updateselectedGroupMember() {
+                selectedGroupMember.innerHTML = '';
+
+                selectedUsers.forEach(user => {
+                    const userTemp = document.createElement('div');
+                    userTemp.classList.add("added-user");
+                    userTemp.textContent = user.username;
+            
+                    const closeButton = document.createElement('button');
+                    closeButton.classList.add('user-remove-btn');
+
+                    closeButton.addEventListener('click', function() {
+                        // Remove the user from the selectedUsers array
+                        const index = selectedUsers.findIndex(ele => ele.id === user.id);
+                        if (index !== -1) {
+                            selectedUsers.splice(index, 1);
+                            // Update the display
+                            updateselectedGroupMember();
+                        }
+                    });
+            
+                    userTemp.appendChild(closeButton);
+                    selectedGroupMember.appendChild(userTemp);
+                });
+            
+            }
+        </script>
+        </body>
+</html>

@@ -3,6 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required 
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
+from django.contrib.auth.forms import AuthenticationForm
 
 @login_required
 def home(request):
@@ -19,11 +20,12 @@ def authenticationView(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST or None )
         if form.is_valid():
-            form.save()
-            return redirect('login/')
+            user = form.save(commit=False)
+            if 'adminUserCheckbox' in request.POST:
+                user.is_staff = True
+            user.save()
+            return redirect('/login')
     return render(request, 'registration/register.html',{'form' :form})
-
-from django.contrib.auth.forms import AuthenticationForm
 
 def login_view(request):
     form = AuthenticationForm()
