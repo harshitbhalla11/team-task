@@ -18,8 +18,8 @@
         <div class="row d-flex justify-content-center mt-5">
            <div class="col-3 text-center"> <p><strong>Group Name:</strong> {{ group_data.group_name }}</p> </div>
             <div class="col-3 text-center"> <p><strong>Group ID:</strong> {{ group_data.group_id }}</p> </div>
-       
-        <p><strong>Admin Name:</strong> {{ group_data.admin_user_id }}</p>
+            <div class="col-3 text-center">  <p><strong>Admin Name:</strong> {{ group_data.admin_user_name }}</p>  </div>
+
        
         <p><strong>Group Members:</strong></p>
         <ul>
@@ -37,11 +37,13 @@
         <a class="btn btn-primary " >Create Task</a>
         </div>
             <div class="col-3 d-flex justify-content-center">
-        <a  href="/group_edit/{{ group.group_id }}" class="btn btn-primary " >Edit Group</a>
+        <a  href="/group_edit/{{ group_data.group_id }}" class="btn btn-warning " >Edit Group</a>
+            </div>
+            <div class="col-3 d-flex justify-content-center">
+                <a  href="/group_edit/{{ group_data.group_id }}" class="btn btn-danger " >Delete Group</a>
+
             </div>
     </div>
-
- 
 
 </div>
 

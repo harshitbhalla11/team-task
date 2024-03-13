@@ -14,30 +14,21 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from pages.views import landing_page, home_page
-from django.contrib.auth import views as authentication_view
 from django.contrib import admin
 from django.urls import path,include
-from django.contrib.auth.views import LoginView
-from django.views.generic import TemplateView
-from django.contrib.auth.decorators import login_required
 from .views import entry_views, create_group_view
 from .views import fetch_users_list
-from pages.views import update_create_group,fetch_groups, group_info,group_edit
+from pages.views import update_create_group,fetch_groups, group_info,group_edit, fetch_group_data
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('accounts/', include('django.contrib.auth.urls')),
-    # path('register/', reg_view, name='register'),
-    # path('login/', LoginView.as_view(), name='login_view'),
     path('', include(("signupLogin.urls","signupLogin"),"signupLogin")),
-    # path('home/', home_page, name='home_page'),
-    # path('landing/', TemplateView.as_view(template_name='landing-page.html'), name='landing'),
     path('', entry_views, name='home'),
     path('creategroup/', create_group_view, name='creategroup'),
-    # path('search_users/', search_users, name='search_users'),
     path('fetch_users_list/', fetch_users_list, name='fetch_users_list'),
     path('update_create_group/', update_create_group, name='update_create_group'),
     path('groups/', fetch_groups, name='Team_groups'),
     path('group/<int:group_id>/', group_info, name='group_detail'),
     path('group_edit/<int:group_id>/', group_edit, name='group_edit'),
+    path('fetch_group_data/<int:group_id>/', fetch_group_data, name='fetch_group_data'),
 ]
