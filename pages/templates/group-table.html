@@ -1,29 +1,28 @@
-<table class="table table-hover">
+<div>
+  <table class="table table-hover">
     <thead>
       <tr>
-        <th scope="col">#</th>
-        <th scope="col">First</th>
-        <th scope="col">Last</th>
-        <th scope="col">Handle</th>
+        <th scope="col"> Group ID</th>
+        <th scope="col">Created by</th>
+        <th scope="col">group Name</th>
+        {% comment %} <th scope="col">Description</th> {% endcomment %}
+        <th scope="col">Creation date & time</th>
+        {% comment %} <th scope="col">group members</th> {% endcomment %}
+        <th scope="col">visibility</th>
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <th scope="row">1</th>
-        <td>Mark</td>
-        <td>Otto</td>
-        <td>@mdo</td>
+      {% for group in groups_data %}
+       <tr onclick="window.location='/group/{{ group.group_id }}/'" style="cursor:pointer;">
+        <td>{{ group.group_id }}</td>
+        <td>{{ group.admin_user_id }}</td>
+        <td>{{ group.group_name }}</td>
+        {% comment %} <td>{{ group.description }}</td> {% endcomment %}
+        <td>{{ group.create_date_time }}</td>
+        {% comment %} <td>{{ group.group_members }}</td> {% endcomment %}
+        <td>{{ group.visibility_type }}</td>
       </tr>
-      <tr>
-        <th scope="row">2</th>
-        <td>Jacob</td>
-        <td>Thornton</td>
-        <td>@fat</td>
-      </tr>
-      <tr>
-        <th scope="row">3</th>
-        <td colspan="2">Larry the Bird</td>
-        <td>@twitter</td>
-      </tr>
+      {% endfor %}
     </tbody>
   </table>
+</div>

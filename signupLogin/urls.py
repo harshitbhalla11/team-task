@@ -12,5 +12,4 @@ urlpatterns = [
   path("", entry_view, name="home"), 
   path('login/', login_view, name='login'),
   path('logout/',logout_view, name='logout'),
-  # path("home/", home, name="home"), 
 ]

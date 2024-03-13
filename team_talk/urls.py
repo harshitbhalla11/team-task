@@ -23,6 +23,7 @@ from django.views.generic import TemplateView
 from django.contrib.auth.decorators import login_required
 from .views import entry_views, create_group_view
 from .views import fetch_users_list
+from pages.views import update_create_group,fetch_groups, group_info,group_edit
 urlpatterns = [
     path('admin/', admin.site.urls),
     # path('accounts/', include('django.contrib.auth.urls')),
@@ -35,4 +36,8 @@ urlpatterns = [
     path('creategroup/', create_group_view, name='creategroup'),
     # path('search_users/', search_users, name='search_users'),
     path('fetch_users_list/', fetch_users_list, name='fetch_users_list'),
+    path('update_create_group/', update_create_group, name='update_create_group'),
+    path('groups/', fetch_groups, name='Team_groups'),
+    path('group/<int:group_id>/', group_info, name='group_detail'),
+    path('group_edit/<int:group_id>/', group_edit, name='group_edit'),
 ]

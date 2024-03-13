@@ -20,7 +20,7 @@
             src="{% static 'images/create-group.png' %}"
             alt="Card image cap"
           /></h1>
-        <form action="/create_group/" method="post">
+        <form method="post" action="{% url 'update_create_group' %}">
             {% csrf_token %}
             <div class="row form-group my-3">
                 <h5 class="col-md-3 text-center " for="group_name">Group Name:</h5>
@@ -65,7 +65,9 @@
         <div id="selectedUsers"></div>
         <div class="create-submit-container">
             <button type="submit" class="btn btn-primary mt-2 create-group-submit">Create Group</button>
-        </div>    
+        </div> 
+        <input type="hidden" name="selected_users" id="selected_users_input" value="">
+   
     </form>
     </div>
         <script>
@@ -118,6 +120,9 @@
                             selectedUsers.push(selectedUser);
                             console.log('Selected User:', selectedUser);
                             console.log('Selected Users Array:', selectedUsers);
+                            const selectedUsersJSON = JSON.stringify(selectedUsers);
+                            document.getElementById('selected_users_input').value = selectedUsersJSON;
+
                             updateselectedGroupMember();
                         } else {
                             console.log('User already selected:', selectedUser);

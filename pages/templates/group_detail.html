@@ -1,0 +1,49 @@
+<html>
+    <head>
+         {% load bootstrap5 %}
+  {% bootstrap_css %}
+  {% bootstrap_javascript %}
+  {% load static %}
+   <link rel="stylesheet" href="{% static 'global.css' %}">  
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Truculenta:opsz,wght@12..72,100..900&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        {% include 'navbar.html' %}
+
+<div class="container group-details-container">
+    <h2 class="details-heading">Group Details</h2>
+    <div>
+        <div class="row d-flex justify-content-center mt-5">
+           <div class="col-3 text-center"> <p><strong>Group Name:</strong> {{ group_data.group_name }}</p> </div>
+            <div class="col-3 text-center"> <p><strong>Group ID:</strong> {{ group_data.group_id }}</p> </div>
+       
+        <p><strong>Admin Name:</strong> {{ group_data.admin_user_id }}</p>
+       
+        <p><strong>Group Members:</strong></p>
+        <ul>
+            {% for member in group_data.group_members %}
+                <li>{{ member }}</li>
+            {% endfor %}
+        </ul>
+        <p><strong>Created Date and Time:</strong> {{ group_data.create_date_time }}</p>
+        <p><strong>Group visibility:</strong> {{ group_data.visibility_type }}</p>
+        <p><strong>Description:</strong> {{ group_data.description }}</p>
+    </div>
+    
+    <div class="row d-flex justify-content-center mt-3">
+        <div class="col-3 d-flex justify-content-center">
+        <a class="btn btn-primary " >Create Task</a>
+        </div>
+            <div class="col-3 d-flex justify-content-center">
+        <a  href="/group_edit/{{ group.group_id }}" class="btn btn-primary " >Edit Group</a>
+            </div>
+    </div>
+
+ 
+
+</div>
+
+    </body>
+</html>

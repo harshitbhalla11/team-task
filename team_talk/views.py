@@ -1,8 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.http import JsonResponse
-
-
+from pages.models import Group
 def entry_views(request):
     if request.user.is_authenticated:
         return render(request, 'home-page.html', {})    
