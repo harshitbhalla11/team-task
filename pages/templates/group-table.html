@@ -15,7 +15,7 @@
       {% for group in groups_data %}
        <tr onclick="window.location='/group/{{ group.group_id }}/'" style="cursor:pointer;">
         <td>{{ group.group_id }}</td>
-        <td>{{ group.admin_user_id }}</td>
+        <td>{{ group.admin_user_name }}</td>
         <td>{{ group.group_name }}</td>
         {% comment %} <td>{{ group.description }}</td> {% endcomment %}
         <td>{{ group.create_date_time }}</td>

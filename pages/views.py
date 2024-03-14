@@ -4,7 +4,8 @@ from django.http import JsonResponse
 from django.contrib.auth.models import User
 from .models import Group
 from django.core.serializers import serialize
-import json
+from django.shortcuts import render, redirect
+from .models import Group
 
 def landing_page(request):
     return render(request, 'landing-page.html')
@@ -12,8 +13,7 @@ def landing_page(request):
 def home_page(request):
     return render(request, 'home-page.html')
 
-from django.shortcuts import render, redirect
-from .models import Group
+
 
 def update_create_group(request):
     if request.method == 'POST':
@@ -32,7 +32,7 @@ def update_create_group(request):
             admin_user_id=admin_user_id,
             admin_user_name = admin_user_name
         )
-        return redirect('Team_groups') 
+        return redirect('fetch_groups') 
     else:
         return render(request, 'create_group.html')
     
@@ -65,3 +65,14 @@ def fetch_group_data(request, group_id):
         return JsonResponse({'group_data': group_data})
     except Group.DoesNotExist:
         return JsonResponse({'error': 'Group not found'}, status=404)
+
+
+
+def group_delete(request, group_id):
+    group = Group.objects.get(pk=group_id)
+    group.delete()
+    return redirect('fetch_groups')
+
+def createtask_view(request,group_id):
+     group_data = Group.objects.get(pk=group_id)
+     return render(request, 'task/createtask.html',{'group_id':group_id,'group_data':group_data})

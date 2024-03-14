@@ -26,7 +26,7 @@ class Task(models.Model):
         ('completed', 'Completed'),
     ]
     task_id = models.AutoField(primary_key=True)
-    task_name = models.CharField(max_length=100)
+    task_brief = models.CharField(max_length=100)
     description = models.TextField()
     assigned_to = models.JSONField()
     due_date = models.DateField()
