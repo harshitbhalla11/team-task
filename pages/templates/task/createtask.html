@@ -159,7 +159,7 @@
                         const index = selectedUsers.findIndex(ele => ele.id === user.id);
                         if (index !== -1) {
                             selectedUsers.splice(index, 1);
-                            // Update the display
+                            // Update the UI for members
                             updateselectedGroupMember();
                         }
                     });
@@ -209,8 +209,7 @@
                 if (button) {
                     button.classList.add('active');
                 }
-            }
-            
+            }  
 
             
         </script>

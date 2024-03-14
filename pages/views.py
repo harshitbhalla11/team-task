@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from .models import Group
 from django.core.serializers import serialize
 from django.shortcuts import render, redirect
-from .models import Group
+from .models import Group, Task
 
 def landing_page(request):
     return render(request, 'landing-page.html')
@@ -35,6 +35,42 @@ def update_create_group(request):
         return redirect('fetch_groups') 
     else:
         return render(request, 'create_group.html')
+    
+
+
+
+def update_create_task(request, group_id):
+    if request.method == 'POST':
+        task_brief = request.POST.get('task_brief')
+        description = request.POST.get('description')
+        assigned_to = request.POST.get('assigned_to')
+        due_date = request.POST.get('due_date')
+        priority = request.POST.get('priority')
+        status = request.POST.get('status')
+        labels = request.POST.get('labels')
+        group_id = request.POST.get('group_id')
+        created_by = request.POST.get('created_by')
+        
+        attachments = request.FILES.get('attachments')
+
+        task = Task.objects.create(
+            task_brief=task_brief,
+            description=description,
+            assigned_to=assigned_to,
+            due_date=due_date,
+            priority=priority,
+            status=status,
+            labels=labels,
+            group_id=group_id,
+            created_by=created_by,
+            attachments=attachments
+        )
+
+        return redirect('group_info',{'group_id': group_id})  
+
+    else:
+        return render(request, 'your_template.html') 
+
     
 def fetch_groups(request):
     group_table_data = Group.objects.all()

@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+
 class Group(models.Model):
     admin_user_id = models.CharField(max_length=100)
     admin_user_name = models.CharField(max_length=100, default='NA')
@@ -9,10 +10,6 @@ class Group(models.Model):
     visibility_type = models.CharField(max_length=20) # public, private
     description = models.CharField(max_length=250,default='NA')
     group_name = models.CharField(max_length=100,default='untitled')
-
-
-from django.db import models
-from django.contrib.auth.models import User
 
 class Task(models.Model):
     PRIORITY = [
@@ -35,4 +32,5 @@ class Task(models.Model):
     labels = models.CharField(max_length=100, blank=True, null=True)
     attachments = models.FileField(upload_to='task_attachments/', blank=True, null=True)
     group_id = models.CharField(max_length=100)
+    created_by = models.CharField(max_length=100)
 

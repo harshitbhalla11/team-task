@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path,include
 from .views import entry_views, create_group_view
 from .views import fetch_users_list
-from pages.views import update_create_group,fetch_groups, group_info,group_edit, fetch_group_data, group_delete, createtask_view
+from pages.views import update_create_group,fetch_groups, group_info,group_edit, fetch_group_data, group_delete, createtask_view, update_create_task
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -33,5 +33,6 @@ urlpatterns = [
     path('fetch_group_data/<int:group_id>/', fetch_group_data, name='fetch_group_data'),
     path('group_delete/<int:group_id>', group_delete, name='group_delete'),
     path('createtask/<int:group_id>/', createtask_view, name='createtask'),
+    path('update_create_task/<int:group_id>', update_create_task, name='update_create_task'),
 
 ]
