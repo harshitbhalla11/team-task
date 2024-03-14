@@ -58,24 +58,25 @@
         <input type="hidden" name="selected_users" id="selected_users_input" value="">
         <div  class="row mt-5">
             <h5 class="col-3">Priority</h5>
-            <div class="btn-group col-6 " role="group" aria-label="Priority Selector">
-                <button type="button" class="btn btn-secondary active" id="priorityHigh">High</button>
-                <button type="button" class="btn btn-secondary" id="priorityMedium">Medium</button>
-                <button type="button" class="btn btn-secondary" id="priorityLow">Low</button>
+            <div class="btn-group col-6 prority-group" role="group" aria-label="Priority Selector">
+                <button type="button" onclick="changePriority('low')" class="btn-priority low-priority active" id="priorityLow">Low</button>
+                <button type="button" onclick="changePriority('medium')" class="btn-priority" id="priorityMedium">Medium</button>
+                <button type="button" onclick="changePriority('high')" class="btn-priority high-priority " id="priorityHigh">High</button>
+
             </div>
         </div>
         <div  class="row mt-5">
             <h5 class="col-3">Status</h5>
             <div class="btn-group col-6 " role="group" aria-label="Priority Selector">
-                <button type="button" class="btn btn-light border border-primary active" id="priorityHigh">Not Started</button>
-                <button type="button" class="btn btn-warning border border-primary" id="priorityMedium">In Progress</button>
-                <button type="button" class="btn btn-success border border-primary" id="priorityLow">Completed</button>
+                <button type="button" onclick="changeStatus('not-started')" class="btn-status not-started-status  active" id="notStarted">Not Started</button>
+                <button type="button" onclick="changeStatus('in-progress')" class="btn-status in-progress-status border-primary" id="inProgress">In Progress</button>
+                <button type="button" onclick="changeStatus('completed')" class="btn-status completed-status " id="completed">Completed</button>
             </div>
         </div>
          
 
         <div class="row mt-5">
-            <h5 class="col-3">Upload File</h5>
+            <h5 class="col-3">Upload File(s3)</h5>
 
             <input class="col-6" type="file"> 
         </div>
@@ -87,13 +88,131 @@
    
     </form>
         <script>
+            let priority="low"
+            let status="not-started"
+
+            let userList= [];
+            let selectedUsers= [];
             let group_id= {{ group_id }};
             fetch(`/fetch_group_data/${group_id}/`)
             .then(response => response.json())
             .then(data => {
-                console.log(data);
-            });
+                parsedMember=JSON.parse(data.group_data.group_members);
+                console.log(parsedMember, "parsedMember");
 
+                parsedMember.forEach(member => {
+                    userList.push(member);
+                });
+                console.log(selectedUsers)
+                addMembersToList()
+               
+            });
+            
+
+            function addMembersToList() {
+                const userDropdownElement = document.getElementById('userDropdown');
+                
+                userList.forEach(user => {
+                    const listItem = document.createElement('a');
+                    listItem.classList.add('dropdown-item');
+                    listItem.href = '#';
+                    listItem.textContent = user.username;
+                    listItem.dataset.id = user.id;
+            
+                    userDropdownElement.appendChild(listItem);
+
+                    listItem.addEventListener('click', function(event) {
+                        event.preventDefault();
+                        const selectedUser = {
+                            id: user.id,
+                            username: user.username
+                        };
+                        const selectedId = parseInt(user.id);
+                        if (!selectedUsers.some(u => u.id === selectedId)) {
+                            selectedUsers.push(selectedUser);
+                            console.log('Selected User:', selectedUser);
+                            console.log('Selected Users Array:', selectedUsers);
+                            const selectedUsersJSON = JSON.stringify(selectedUsers);
+                            document.getElementById('selected_users_input').value = selectedUsersJSON;
+
+                            updateselectedGroupMember();
+                        } else {
+                            console.log('User already selected:', selectedUser);
+                        }
+                    });
+                });
+            }
+            //update UI for members in form
+            function updateselectedGroupMember() {
+                selectedGroupMember.innerHTML = '';
+
+                selectedUsers.forEach(user => {
+                    const userTemp = document.createElement('div');
+                    userTemp.classList.add("added-user");
+                    userTemp.textContent = user.username;
+            
+                    const closeButton = document.createElement('button');
+                    closeButton.classList.add('user-remove-btn');
+
+                    closeButton.addEventListener('click', function() {
+                        // Remove the user from the selectedUsers array
+                        const index = selectedUsers.findIndex(ele => ele.id === user.id);
+                        if (index !== -1) {
+                            selectedUsers.splice(index, 1);
+                            // Update the display
+                            updateselectedGroupMember();
+                        }
+                    });
+            
+                    userTemp.appendChild(closeButton);
+                    selectedGroupMember.appendChild(userTemp);
+                });
+            }
+            //change the priority
+            function changePriority(priority) {
+                this.priority = priority.toLowerCase(); 
+                console.log(this.priority, "priority")
+                var buttons = document.querySelectorAll('.btn-priority');
+                buttons.forEach(function(button) {
+                    button.classList.remove('active');
+                });
+            
+                var button;
+                if (priority === 'low') {
+                    button = document.getElementById('priorityLow');
+                } else if (priority === 'medium') {
+                    button = document.getElementById('priorityMedium');
+                } else if (priority === 'high') {
+                    button = document.getElementById('priorityHigh');
+                }
+                if (button) {
+                    button.classList.add('active');
+                }
+            }
+            
+            function changeStatus(status) {
+                this.status = status.toLowerCase();
+            
+                var buttons = document.querySelectorAll('.btn-status');
+                buttons.forEach(function(button) {
+                    button.classList.remove('active');
+                });
+            
+                var button;
+                if (status === 'not-started') {
+                    button = document.getElementById('notStarted');
+                } else if (status === 'in-progress') {
+                    button = document.getElementById('inProgress');
+                } else if (status === 'completed') {
+                    button = document.getElementById('completed');
+                }
+                if (button) {
+                    button.classList.add('active');
+                }
+            }
+            
+
+            
         </script>
     </body>
 </html>

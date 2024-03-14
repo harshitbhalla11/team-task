@@ -253,3 +253,91 @@ border-left: 5px solid black;
 
   transform: scale(1.1);
 }
+
+.btn-priority {
+  background-color: #fff; 
+  border: 2px solid #007bff; 
+  color: #007bff; 
+  padding: 5px 10px; 
+  cursor: pointer; 
+  min-width: 130px;
+  border: solid 1px #007bff;
+}
+
+.btn-priority.active,
+.btn-priority:active {
+  background-color: #007bff; 
+  color: #fff;
+}
+
+.low-priority{
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+}
+.high-priority{
+  border-bottom-right-radius: 20px;
+  border-top-right-radius: 20px;
+}
+
+
+.btn-status {
+  background-color: #fff; 
+  border: 2px solid #007bff; 
+  color: #007bff; 
+  padding: 5px 10px; 
+  cursor: pointer; 
+  min-width: 130px;
+  border: solid 1px #007bff;
+}
+
+.btn-status.active,
+.btn-status:active {
+  background-color: #007bff; 
+  color: #fff;
+}
+
+.not-started-status{
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+}
+.completed-status{
+  border-bottom-right-radius: 20px;
+  border-top-right-radius: 20px;
+}
+
+.btn-status.active,
+.btn-status:active {
+    color: #fff; /* Change text color on active state */
+}
+
+
+
+/* Active color for each status */
+.not-started-status.active,
+.not-started-status:active {
+    background-color: #007bff; /* Blue for not started */
+}
+
+.in-progress-status.active,
+.in-progress-status:active {
+    background-color: #ffc107;
+    color: #000;
+  }
+
+.completed-status.active,
+.completed-status:active {
+    background-color: #28a745; /* Green for completed */
+}
+
+.btn-status.active.not-started-status.active,
+.btn-status:active.not-started-status:active {
+    background-color: #007bff; /* Blue for not started */
+}
+
+.btn-status.active.in-progress-status.active,
+.btn-status:active.in-progress-status:active {
+    background-color: #ffc107; /* Yellow for in progress */
+}
+
+
+
