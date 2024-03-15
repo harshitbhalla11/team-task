@@ -25,7 +25,7 @@
           alt="Card image cap"
         />
       </h1>
-      <form method="post" action="{% url 'update_create_group' %}">
+      <form method="post" action="{% url 'add_group' %}">
         {% csrf_token %}
         <div class="row form-group my-3">
           <h5 class="col-md-3 text-center" for="group_name">Group Name:</h5>
@@ -49,7 +49,7 @@
               name="description"
               rows="4"
               required
-            ></textarea>
+            >{{ group_data.description }}</textarea>
           </div>
         </div>
         <div class="select-user-container my-3">
@@ -124,56 +124,44 @@
       let users = null;
       let selectedUsers = [];
       const group_id = {{ group_data.group_id }};
-
+    
       fetch(`/fetch_group_data/${group_id}/`)
-      .then(response => response.json())
-      .then(data => {
+        .then(response => response.json())
+        .then(data => {
           console.log(data);
           console.log(data.group_data.group_members[0])
-          document.getElementById("description").value = data.group_data.description;
           document.getElementById("group_name").value = data.group_data.group_name;
           document.getElementById("selected_users_input").value = JSON.stringify(data.group_data.group_members[0]);
           document.getElementById("public").checked = data.group_data.visibility_type === "public";
           document.getElementById("private").checked = data.group_data.visibility_type === "private";
-      });
-  
-      
+        });
 
-      
-      fetch("/fetch_users_list/")
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("Network response was not ok");
-          }
-          return response.json();
-        })
-        .then((data) => {
+        fetch('/fetch_users_list/')
+        .then(response => response.json())
+        .then(data => {
           users = data.users;
           console.log("Fetched users:", users);
           initializeDropdown(users);
-        })
-        .catch((error) => {
-          console.error("Error fetching user list:", error);
         });
-
+    
       function initializeDropdown(users) {
         const userDropdownElement = document.getElementById("userDropdown");
         if (!userDropdownElement) {
           console.error("User dropdown element not found");
           return;
         }
-
+    
         userDropdownElement.innerHTML = "";
-
+    
         users.forEach((user) => {
           const listItem = document.createElement("a");
           listItem.classList.add("dropdown-item");
           listItem.href = "#";
           listItem.textContent = user.username;
           listItem.dataset.id = user.id;
-
+    
           userDropdownElement.appendChild(listItem);
-
+    
           listItem.addEventListener("click", function (event) {
             event.preventDefault();
             const selectedUser = {
@@ -186,9 +174,8 @@
               console.log("Selected User:", selectedUser);
               console.log("Selected Users Array:", selectedUsers);
               const selectedUsersJSON = JSON.stringify(selectedUsers);
-              document.getElementById("selected_users_input").value =
-                selectedUsersJSON;
-
+              document.getElementById("selected_users_input").value = selectedUsersJSON;
+    
               updateselectedGroupMember();
             } else {
               console.log("User already selected:", selectedUser);
@@ -196,18 +183,20 @@
           });
         });
       }
-
+    
       function updateselectedGroupMember() {
+        const selectedGroupMember = document.getElementById("selected_group_member");
         selectedGroupMember.innerHTML = "";
-
+    
         selectedUsers.forEach((user) => {
           const userTemp = document.createElement("div");
           userTemp.classList.add("added-user");
           userTemp.textContent = user.username;
-
+    
           const closeButton = document.createElement("button");
           closeButton.classList.add("user-remove-btn");
-
+          closeButton.textContent = "Remove";
+    
           closeButton.addEventListener("click", function () {
             // Remove the user from the selectedUsers array
             const index = selectedUsers.findIndex((ele) => ele.id === user.id);
@@ -217,15 +206,17 @@
               updateselectedGroupMember();
             }
           });
-
+    
           userTemp.appendChild(closeButton);
           selectedGroupMember.appendChild(userTemp);
         });
       }
-
-      onSubmit()=>{
+    
+      function onSubmit() {
         console.log("Form submitted");
+        // Add your form submission logic here
       }
     </script>
+    
   </body>
 </html>

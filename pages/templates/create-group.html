@@ -20,7 +20,7 @@
             src="{% static 'images/create-group.png' %}"
             alt="Card image cap"
           /></h1>
-        <form method="post" action="{% url 'update_create_group' %}">
+        <form method="post" action="{% url 'add_group' %}">
             {% csrf_token %}
             <div class="row form-group my-3">
                 <h5 class="col-md-3 text-center " for="group_name">Group Name:</h5>
@@ -75,20 +75,12 @@
             let selectedUsers = [];
             //fetch data for all users
             fetch('/fetch_users_list/')
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    users = data.users;
-                    console.log('Fetched users:', users);
-                    initializeDropdown(users);
-                })
-                .catch(error => {
-                    console.error('Error fetching user list:', error);
-                });
+            .then(response => response.json())
+            .then(data => {
+                users = data.users;
+                console.log('Fetched users:', users);
+                initializeDropdown(users);
+            });
             
             function initializeDropdown(users) {
                 const userDropdownElement = document.getElementById('userDropdown');

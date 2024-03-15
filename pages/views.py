@@ -6,6 +6,7 @@ from .models import Group
 from django.core.serializers import serialize
 from django.shortcuts import render, redirect
 from .models import Group, Task
+from django.forms.models import model_to_dict
 
 def landing_page(request):
     return render(request, 'landing-page.html')
@@ -15,7 +16,7 @@ def home_page(request):
 
 
 
-def update_create_group(request):
+def add_group(request):
     if request.method == 'POST':
         group_name = request.POST.get('group_name')
         group_members = request.POST.getlist('selected_users')
@@ -39,37 +40,36 @@ def update_create_group(request):
 
 
 
-def update_create_task(request, group_id):
+def add_task(request, group_id):
     if request.method == 'POST':
         task_brief = request.POST.get('task_brief')
         description = request.POST.get('description')
-        assigned_to = request.POST.get('assigned_to')
+        assigned_to = request.POST.getlist('selected_member')
         due_date = request.POST.get('due_date')
         priority = request.POST.get('priority')
         status = request.POST.get('status')
-        labels = request.POST.get('labels')
-        group_id = request.POST.get('group_id')
-        created_by = request.POST.get('created_by')
-        
-        attachments = request.FILES.get('attachments')
+        # labels = request.POST.get('labels')
+        groupId = group_id
+        created_by = request.user.id
+        created_by_name = request.user.username
+        # attachments = request.FILES.get('attachments')
 
-        task = Task.objects.create(
+        Task.objects.create(
             task_brief=task_brief,
             description=description,
             assigned_to=assigned_to,
             due_date=due_date,
             priority=priority,
             status=status,
-            labels=labels,
-            group_id=group_id,
+            # labels=labels,
+            group_id=groupId,
             created_by=created_by,
-            attachments=attachments
+            created_by_name=created_by_name
+            # attachments=attachments
         )
 
-        return redirect('group_info',{'group_id': group_id})  
+        return redirect('group_detail',group_id=group_id)  
 
-    else:
-        return render(request, 'your_template.html') 
 
     
 def fetch_groups(request):
@@ -79,30 +79,17 @@ def fetch_groups(request):
 
 def group_info(request, group_id):
     group = Group.objects.get(pk=group_id)  
-    return render(request, 'group_detail.html', {'group_data': group})
+    tasks = Task.objects.filter(group_id=group_id)
+    return render(request, 'group_detail.html', {'group_data': group, 'tasks_data': tasks, 'group_id': group_id})
 
 def group_edit(request, group_id):
     group = Group.objects.get(pk=group_id)  
     return render(request, 'group_edit.html', {'group_data': group})
 
 def fetch_group_data(request, group_id):
-    try:
-        group = Group.objects.get(pk=group_id)
-        group_data = {
-            'admin_user_id': group.admin_user_id,
-            'admin_user_name': group.admin_user_name,
-            'group_id': group.group_id,
-            'create_date_time': group.create_date_time,
-            'group_members': group.group_members,
-            'visibility_type': group.visibility_type,
-            'description': group.description,
-            'group_name': group.group_name
-        }
-        return JsonResponse({'group_data': group_data})
-    except Group.DoesNotExist:
-        return JsonResponse({'error': 'Group not found'}, status=404)
-
-
+    group = Group.objects.get(pk=group_id)
+    group_dict = model_to_dict(group)
+    return JsonResponse({'group_data':group_dict}, safe= False)
 
 def group_delete(request, group_id):
     group = Group.objects.get(pk=group_id)
@@ -112,3 +99,10 @@ def group_delete(request, group_id):
 def createtask_view(request,group_id):
      group_data = Group.objects.get(pk=group_id)
      return render(request, 'task/createtask.html',{'group_id':group_id,'group_data':group_data})
+
+def fetch_group_task(request, group_id):
+    tasks = Task.objects.filter(group_id=group_id).values()    
+    tasks_list = list(tasks)
+    return JsonResponse(tasks_list, safe=False)
+
+

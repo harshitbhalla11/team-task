@@ -20,12 +20,12 @@
             src="{% static 'images/create-group.png' %}"
             alt="Card image cap"
           /></h1>
-        <form method="post" action="{% url 'update_create_group' %}">
+        <form method="post" action="{% url 'add_task' group_id=group_data.group_id %}">
             {% csrf_token %}
             <div class="row form-group my-3">
                 <h5 class="col-md-3 text-center " for="group_name">Task brief:</h5>
                 <div class="col-md-8">
-                <input type="text" class="col-md-6 form-control" id="group_name" name="group_name" required>
+                <input type="text" class="col-md-6 form-control" id="task_brief" name="task_brief" required>
                 </div>
             </div>
             <div class="row form-group my-3">
@@ -35,6 +35,8 @@
                 </div>
             </div>
             <div class="select-user-container my-3">
+                <input type="hidden" name="selected_member" id="selected_member" value="">
+
                 <div class="dropdown my-3">
                     <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Select Members
@@ -49,16 +51,16 @@
             <div class="row form-group my-3">
                 <h5 class="col-3">Due date:</h5>
                 <div class="col-md-8">
-                <input class="datepicker" type="date" id="date" name="date">
+                <input class="datepicker" type="date" id="due_date" name="due_date">
                 </div>
         </div>
 
         <div id="selectedUsers"></div>
       
-        <input type="hidden" name="selected_users" id="selected_users_input" value="">
         <div  class="row mt-5">
             <h5 class="col-3">Priority</h5>
             <div class="btn-group col-6 prority-group" role="group" aria-label="Priority Selector">
+                <input type="hidden" id="priorityInput" name="priority" value="low">
                 <button type="button" onclick="changePriority('low')" class="btn-priority low-priority active" id="priorityLow">Low</button>
                 <button type="button" onclick="changePriority('medium')" class="btn-priority" id="priorityMedium">Medium</button>
                 <button type="button" onclick="changePriority('high')" class="btn-priority high-priority " id="priorityHigh">High</button>
@@ -68,6 +70,7 @@
         <div  class="row mt-5">
             <h5 class="col-3">Status</h5>
             <div class="btn-group col-6 " role="group" aria-label="Priority Selector">
+                <input type="hidden" id="statusInput" name="status" value="not-started">
                 <button type="button" onclick="changeStatus('not-started')" class="btn-status not-started-status  active" id="notStarted">Not Started</button>
                 <button type="button" onclick="changeStatus('in-progress')" class="btn-status in-progress-status border-primary" id="inProgress">In Progress</button>
                 <button type="button" onclick="changeStatus('completed')" class="btn-status completed-status " id="completed">Completed</button>
@@ -133,7 +136,7 @@
                             console.log('Selected User:', selectedUser);
                             console.log('Selected Users Array:', selectedUsers);
                             const selectedUsersJSON = JSON.stringify(selectedUsers);
-                            document.getElementById('selected_users_input').value = selectedUsersJSON;
+                            document.getElementById('selected_member').value = selectedUsersJSON;
 
                             updateselectedGroupMember();
                         } else {
@@ -170,7 +173,10 @@
             }
             //change the priority
             function changePriority(priority) {
-                this.priority = priority.toLowerCase(); 
+                
+                var priorityInput = document.getElementById("priorityInput");
+                priorityInput.value = priority.toLowerCase();
+               
                 console.log(this.priority, "priority")
                 var buttons = document.querySelectorAll('.btn-priority');
                 buttons.forEach(function(button) {
@@ -192,7 +198,10 @@
             
             function changeStatus(status) {
                 this.status = status.toLowerCase();
-            
+
+                var statusInput = document.getElementById("statusInput");
+                statusInput.value = status.toLowerCase();
+
                 var buttons = document.querySelectorAll('.btn-status');
                 buttons.forEach(function(button) {
                     button.classList.remove('active');

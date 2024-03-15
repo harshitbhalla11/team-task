@@ -33,4 +33,4 @@ class Task(models.Model):
     attachments = models.FileField(upload_to='task_attachments/', blank=True, null=True)
     group_id = models.CharField(max_length=100)
     created_by = models.CharField(max_length=100)
-
+    created_by_name = models.CharField(max_length=100)

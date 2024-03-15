@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path,include
 from .views import entry_views, create_group_view
 from .views import fetch_users_list
-from pages.views import update_create_group,fetch_groups, group_info,group_edit, fetch_group_data, group_delete, createtask_view, update_create_task
+from pages.views import add_group,fetch_groups, group_info,group_edit, fetch_group_data, group_delete, createtask_view, add_task, fetch_group_task
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,13 +26,16 @@ urlpatterns = [
     path('', entry_views, name='home'),
     path('creategroup/', create_group_view, name='creategroup'),
     path('fetch_users_list/', fetch_users_list, name='fetch_users_list'),
-    path('update_create_group/', update_create_group, name='update_create_group'),
+    path('add_group/', add_group, name='add_group'),
     path('groups/', fetch_groups, name='fetch_groups'),
     path('group/<int:group_id>/', group_info, name='group_detail'),
     path('group_edit/<int:group_id>/', group_edit, name='group_edit'),
     path('fetch_group_data/<int:group_id>/', fetch_group_data, name='fetch_group_data'),
     path('group_delete/<int:group_id>', group_delete, name='group_delete'),
     path('createtask/<int:group_id>/', createtask_view, name='createtask'),
-    path('update_create_task/<int:group_id>', update_create_task, name='update_create_task'),
+    path('add_task/<int:group_id>', add_task, name='add_task'),
+    path('fetch_group_task/<int:group_id>/', fetch_group_task, name='fetch_group_task'),
+    # path('fetch_task/<int:task_id>/', fetch_task, name='fetch_task'),
+
 
 ]

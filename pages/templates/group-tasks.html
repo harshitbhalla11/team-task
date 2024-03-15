@@ -10,6 +10,20 @@
 <link href="https://fonts.googleapis.com/css2?family=Truculenta:opsz,wght@12..72,100..900&display=swap" rel="stylesheet">
     </head>
     <body>
+      <ul>
+        {% for task in tasks_data %}
+            <li>
+                Task ID: {{ task.pk }}<br>
+                Task Brief: {{ task.task_brief }}<br>
+                Description: {{ task.description }}<br>
+                Priority: {{ task.priority }}<br>
+                Status: {{ task.status }}<br>
+                Due Date: {{ task.due_date }}<br>
+                Created By: {{ task.created_by_name }}<br>
+                Assigned To: {{ task.assigned_to }}<br>
+            </li>
+        {% endfor %}
+    </ul>
         <div class="container mt-5">
             <div class="card">
               <div class="card-header bg-dark text-white">
@@ -38,7 +52,18 @@
             </div>
           </div>        
         <script>
-           
+
+        let task_data = null;
+        let group_id = "{{ group_id }}";  
+          //loads the data for all the task in this group.
+          fetch(`/fetch_group_task/${group_id}/`)
+            .then(response => response.json())
+            .then(data => {
+                task_data = data;
+                console.log(task_data);
+            })
+
+
         </script>
     </body>
 </html>
