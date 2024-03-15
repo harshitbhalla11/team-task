@@ -8,7 +8,27 @@
     </head>
     <body>
         {% include 'navbar.html' %}
-        <a  href="/creategroup" class="btn btn-primary">Create Group</a>
+        <!-- <a  href="/creategroup" class="btn btn-primary">Create Group</a> -->
+        <div class="container mt-5">
+            <div class="row mt-2">
+                <img class="col-sm-6" src="{% static 'images/tasks.png' %}" >
+                <div class="col-sm-6">
+                   <div class="mb-3">
+                    Groups help organize tasks based on different criteria such as project, team, priority, or status. 
+                    This makes it easier to find and manage tasks within a larger context.
+                    Groups allow teams to collaborate more effectively by providing a shared space where members can access and work on tasks together. It facilitates communication and coordination among team members.
+                   </div> 
+                  <a  href="/creategroup" class="btn btn-primary mb-5">Create Group</a>
+
+                  <div class="mb-3">
+                    Tasks help to break down larger goals or projects into smaller, actionable steps. By defining specific tasks, individuals and teams gain clarity on what needs to be done to achieve their objectives.
+                    Tasks allow for the prioritization of work. By assigning deadlines, setting due dates, and categorizing tasks based on importance and urgency, individuals can focus their efforts on the most critical activities.
+                  </div>
+                  <a  href="/creategroup" class="btn btn-primary">Create Tasks</a>
+
+                </div>
+            </div>
+        </div>
         {% include 'footer.html' %}
         {% comment %} {%include 'group-table.html'  %} {% endcomment %}
     </body>
