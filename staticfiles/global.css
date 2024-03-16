@@ -366,5 +366,15 @@ border-left: 5px solid black;
   
 }
 
+.task-heading{
+  font-family: "Truculenta", sans-serif;
+  font-optical-sizing: auto;
+  font-size: 60px;
+  font-weight: 700;
+}
+.page-container{
+  min-height: 70vh;
+}
+
 
 

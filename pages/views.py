@@ -49,7 +49,6 @@ def update_group(request, group_id):
         visibility_type = request.POST.get('visibility')
         description = request.POST.get('description')
 
-        # Update group attributes
         group.group_name = group_name
         group.visibility_type = visibility_type
         group.description = description
@@ -57,7 +56,6 @@ def update_group(request, group_id):
         if group_members:
             group.group_members = group_members
 
-        # Save the updated group
         group.save()
         
         return redirect('group_detail',group_id=group_id)  
@@ -139,3 +137,19 @@ def fetch_group_task(request, group_id):
     return JsonResponse(tasks_list, safe=False)
 
 
+def my_tasks(request):
+    tasks = Task.objects.all()
+    for task in tasks:
+        assigned_to_list = json.loads(task.assigned_to[0])
+        task.assigned_to = assigned_to_list
+
+    tasks_assigned_to_curr_user=[]
+    curr_user_id=request.user.id
+
+    for task in tasks:
+        for assigned_to_item in task.assigned_to:
+            if assigned_to_item['id'] == curr_user_id:
+                tasks_assigned_to_curr_user.append(task)
+                break
+
+    return render(request, 'myTask/task_detail.html', {'task_data': tasks_assigned_to_curr_user,'user_id':curr_user_id})
