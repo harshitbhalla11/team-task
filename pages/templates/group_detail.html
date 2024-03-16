@@ -71,8 +71,13 @@
                         }
                     }
                 </script>
+                
+                {% for task in tasks_data %}   
+                {% include 'group-tasks.html' %}
+                {% endfor %}
 </body>
-{% include 'group-tasks.html' %}
+
+
 {% include 'footer.html' %}
 
 

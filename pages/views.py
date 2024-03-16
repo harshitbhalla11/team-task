@@ -7,7 +7,7 @@ from django.core.serializers import serialize
 from django.shortcuts import render, redirect
 from .models import Group, Task
 from django.forms.models import model_to_dict
-
+import json
 def landing_page(request):
     return render(request, 'landing-page.html')
 
@@ -80,6 +80,10 @@ def fetch_groups(request):
 def group_info(request, group_id):
     group = Group.objects.get(pk=group_id)  
     tasks = Task.objects.filter(group_id=group_id)
+    for task in tasks:
+        assigned_to_list = json.loads(task.assigned_to[0])
+        task.assigned_to = assigned_to_list
+    
     return render(request, 'group_detail.html', {'group_data': group, 'tasks_data': tasks, 'group_id': group_id})
 
 def group_edit(request, group_id):

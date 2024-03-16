@@ -36,6 +36,7 @@ urlpatterns = [
     path('add_task/<int:group_id>', add_task, name='add_task'),
     path('fetch_group_task/<int:group_id>/', fetch_group_task, name='fetch_group_task'),
     # path('fetch_task/<int:task_id>/', fetch_task, name='fetch_task'),
+    # path('myTask/', my_tasks, name='myTask'),
 
 
 ]

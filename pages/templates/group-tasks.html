@@ -11,7 +11,7 @@
     </head>
     <body>
       <ul>
-        {% for task in tasks_data %}
+        {% comment %} {% for task in tasks_data %}
             <li>
                 Task ID: {{ task.pk }}<br>
                 Task Brief: {{ task.task_brief }}<br>
@@ -22,31 +22,39 @@
                 Created By: {{ task.created_by_name }}<br>
                 Assigned To: {{ task.assigned_to }}<br>
             </li>
-        {% endfor %}
+        {% endfor %} {% endcomment %}
     </ul>
         <div class="container mt-5">
             <div class="card">
               <div class="card-header bg-dark text-white">
-                Task Name
+                {{ task.task_brief }}
               </div>
               <div class="card-body">
                 <div class="row mt-2">
-                    <div class="col-sm-8" style="color: red">High</div>
+                    <div class="col-sm-8" style="color: red">{{task.priority}}</div>
+                   
                     <div class="row justify-content-end col-sm-4">
+                      {% for assigned_to_item in task.assigned_to %}
                         <div class="col-auto">
-                          <div class="circle">
-                            P
+                          <div class="circle" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ assigned_to_item.username }}">
+                            {% comment %} <ul> {% endcomment %}
+                             
+                                  {{ assigned_to_item.username| slice:"0:1"| upper  }}
+                        
+                          {% comment %} </ul> {% endcomment %}
                           </div>
                         </div>
+                        {% endfor %}
                       </div>
                   </div>
+                
                 <div class="row mt-2">
-                  <div class="col-sm-12">orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</div>
+                  <div class="col-sm-12">{{ task.description }}</div>
                 </div>
                 <div class="row mt-3">
                   <div class="col-sm-2"><strong>Due Date:</strong></div>
-                  <div class="col-sm-8">26/12/2023</div>
-                  <div class="col-sm-2" style="text-align: right; color: green">In Progress</div>
+                  <div class="col-sm-8">{{ task.due_date }}</div>
+                  <div class="col-sm-2" style="text-align: right; color: green">{{task.status}}</div>
                 </div>
               </div>
             </div>

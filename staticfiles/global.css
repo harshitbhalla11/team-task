@@ -348,6 +348,7 @@ border-left: 5px solid black;
   justify-content: center;
   align-items: center;
   color: white;
+  cursor: pointer;
 }
 
 
