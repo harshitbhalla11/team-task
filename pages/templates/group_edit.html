@@ -25,7 +25,7 @@
           alt="Card image cap"
         />
       </h1>
-      <form method="post" action="{% url 'add_group' %}">
+      <form method="post" action="{% url 'update_group' group_id=group_data.group_id %}">
         {% csrf_token %}
         <div class="row form-group my-3">
           <h5 class="col-md-3 text-center" for="group_name">Group Name:</h5>
@@ -123,17 +123,25 @@
     <script>
       let users = null;
       let selectedUsers = [];
+        let userList= [];
       const group_id = {{ group_data.group_id }};
     
       fetch(`/fetch_group_data/${group_id}/`)
         .then(response => response.json())
         .then(data => {
-          console.log(data);
-          console.log(data.group_data.group_members[0])
+          parsedMember=JSON.parse(data.group_data.group_members);
+                console.log(parsedMember, "parsedMember");
+
+                parsedMember.forEach(member => {
+                  selectedUsers.push(member);
+                });
+                console.log(selectedUsers, "selectedUsers")
+          
           document.getElementById("group_name").value = data.group_data.group_name;
           document.getElementById("selected_users_input").value = JSON.stringify(data.group_data.group_members[0]);
           document.getElementById("public").checked = data.group_data.visibility_type === "public";
           document.getElementById("private").checked = data.group_data.visibility_type === "private";
+          updateselectedGroupMember()
         });
 
         fetch('/fetch_users_list/')
@@ -185,7 +193,7 @@
       }
     
       function updateselectedGroupMember() {
-        const selectedGroupMember = document.getElementById("selected_group_member");
+        const selectedGroupMember = document.getElementById("selectedGroupMember");
         selectedGroupMember.innerHTML = "";
     
         selectedUsers.forEach((user) => {
@@ -195,7 +203,6 @@
     
           const closeButton = document.createElement("button");
           closeButton.classList.add("user-remove-btn");
-          closeButton.textContent = "Remove";
     
           closeButton.addEventListener("click", function () {
             // Remove the user from the selectedUsers array

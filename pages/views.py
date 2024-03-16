@@ -8,6 +8,8 @@ from django.shortcuts import render, redirect
 from .models import Group, Task
 from django.forms.models import model_to_dict
 import json
+from django.shortcuts import render, redirect, get_object_or_404
+
 def landing_page(request):
     return render(request, 'landing-page.html')
 
@@ -37,6 +39,30 @@ def add_group(request):
     else:
         return render(request, 'create_group.html')
     
+    
+def update_group(request, group_id):
+    group = Group.objects.get(pk=group_id) 
+
+    if request.method == 'POST':
+        group_name = request.POST.get('group_name')
+        group_members = request.POST.getlist('selected_users')
+        visibility_type = request.POST.get('visibility')
+        description = request.POST.get('description')
+
+        # Update group attributes
+        group.group_name = group_name
+        group.visibility_type = visibility_type
+        group.description = description
+        
+        if group_members:
+            group.group_members = group_members
+
+        # Save the updated group
+        group.save()
+        
+        return redirect('group_detail',group_id=group_id)  
+    else:
+        return render(request, 'group_edit.html', {'group_data': group})    
 
 
 
@@ -83,6 +109,9 @@ def group_info(request, group_id):
     for task in tasks:
         assigned_to_list = json.loads(task.assigned_to[0])
         task.assigned_to = assigned_to_list
+    
+    group_members_list = json.loads(group.group_members[0])
+    group.group_members = group_members_list
     
     return render(request, 'group_detail.html', {'group_data': group, 'tasks_data': tasks, 'group_id': group_id})
 

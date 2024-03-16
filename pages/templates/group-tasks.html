@@ -10,25 +10,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Truculenta:opsz,wght@12..72,100..900&display=swap" rel="stylesheet">
     </head>
     <body>
-      <ul>
-        {% comment %} {% for task in tasks_data %}
-            <li>
-                Task ID: {{ task.pk }}<br>
-                Task Brief: {{ task.task_brief }}<br>
-                Description: {{ task.description }}<br>
-                Priority: {{ task.priority }}<br>
-                Status: {{ task.status }}<br>
-                Due Date: {{ task.due_date }}<br>
-                Created By: {{ task.created_by_name }}<br>
-                Assigned To: {{ task.assigned_to }}<br>
-            </li>
-        {% endfor %} {% endcomment %}
-    </ul>
         <div class="container mt-5">
             <div class="card">
-              <div class="card-header bg-dark text-white">
-                {{ task.task_brief }}
-              </div>
+              <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                <span>{{ task.task_brief }}</span>
+                <div>
+                    <a class="btn btn-info">Edit</a>
+                </div>
+            </div>
+            
               <div class="card-body">
                 <div class="row mt-2">
                     <div class="col-sm-8" style="color: red">{{task.priority}}</div>
@@ -37,11 +27,9 @@
                       {% for assigned_to_item in task.assigned_to %}
                         <div class="col-auto">
                           <div class="circle" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ assigned_to_item.username }}">
-                            {% comment %} <ul> {% endcomment %}
                              
                                   {{ assigned_to_item.username| slice:"0:1"| upper  }}
                         
-                          {% comment %} </ul> {% endcomment %}
                           </div>
                         </div>
                         {% endfor %}

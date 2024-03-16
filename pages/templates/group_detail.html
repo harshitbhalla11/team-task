@@ -28,13 +28,23 @@
                     <p><strong>Admin Name:</strong> {{ group_data.admin_user_name }}</p>
                 </div>
 
-
-                <p><strong>Group Members:</strong></p>
-                <ul>
-                    {% for member in group_data.group_members %}
-                    <li>{{ member }}</li>
-                    {% endfor %}
-                </ul>
+            </div>
+            <div class="row d-flex justify-content-center mt-3">
+                <p class="col-2"><strong>Group Members:</strong></p>
+                <div class="col-sm-6 col-md-4">
+                    <div class="row justify-content-end">
+                        {% for member in group_data.group_members %}
+                        <div class="col-auto">
+                            <div class="name_container bg-primary text-white p-2 mb-2">
+                                {{ member.username }}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            
+               
                 <div class="row d-flex justify-content-center">
                     <div class="col-5 text-center">
                         <p><strong>Created Date and Time:</strong> {{ group_data.create_date_time }}</p>
