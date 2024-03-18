@@ -15,7 +15,7 @@
               <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
                 <span>{{ task.task_brief }}</span>
                 <div>
-                    <a class="btn btn-info">Update</a>
+                    <a href="/edit_task/{{ task.task_id }}" class="btn btn-info">Update</a>
                 </div>
             </div>
             
@@ -49,14 +49,14 @@
           </div>        
         <script>
 
-        let task_data = null;
+        let taskData = null;
         let group_id = "{{ group_id }}";  
           //loads the data for all the task in this group.
           fetch(`/fetch_group_task/${group_id}/`)
             .then(response => response.json())
             .then(data => {
-                task_data = data;
-                console.log(task_data);
+              taskData = data;
+                console.log(taskData);
             })
 
 

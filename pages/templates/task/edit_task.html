@@ -15,12 +15,12 @@
     <body>
         {% include 'navbar.html' %}
     <div class="create-task-container">
-        <h1 class="mt-2 text-center heading-font">Create Task {{group_data.group_name}}<img
+        <h1 class="mt-2 text-center heading-font">Update Task {{group_data.group_name}}<img
             class="create-group-img"
             src="{% static 'images/create-group.png' %}"
             alt="Card image cap"
           /></h1>
-        <form method="post" action="{% url 'add_task' group_id=group_data.group_id %}">
+        <form method="post" action="{% url 'update_task' task_id=task_data.task_id %}">
             {% csrf_token %}
             <div class="row form-group my-3">
                 <h5 class="col-md-3 text-center " for="group_name">Task brief:</h5>
@@ -31,7 +31,7 @@
             <div class="row form-group my-3">
                 <h5 class="col-md-3 text-center" for="description">Task Description:</h5>
                 <div class="col-md-8">
-                    <textarea class="form-control" id="description" name="description" rows="4" required></textarea>
+                    <textarea class="form-control" id="description" name="description" rows="4" required>{{task.description}}</textarea>
                 </div>
             </div>
             <div class="select-user-container my-3">
@@ -82,7 +82,7 @@
         <div class="row mt-5">
             <h5 class="col-3">Upload File(s3)</h5>
 
-            <input class="col-6" type="file" name="file"> 
+            <input class="col-6" type="file" name="s3-file"> 
         </div>
 
         <div class="create-submit-container mt-5">

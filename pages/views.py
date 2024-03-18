@@ -9,6 +9,8 @@ from .models import Group, Task
 from django.forms.models import model_to_dict
 import json
 from django.shortcuts import render, redirect, get_object_or_404
+# import boto3
+from django.conf import settings
 
 def landing_page(request):
     return render(request, 'landing-page.html')
@@ -76,7 +78,12 @@ def add_task(request, group_id):
         groupId = group_id
         created_by = request.user.id
         created_by_name = request.user.username
-        # attachments = request.FILES.get('attachments')
+        attachments = request.FILES.get('file')
+        s3_url = None
+
+        if attachments:
+            s3_url = upload_file_to_s3(attachments)
+         
 
         Task.objects.create(
             task_brief=task_brief,
@@ -88,13 +95,23 @@ def add_task(request, group_id):
             # labels=labels,
             group_id=groupId,
             created_by=created_by,
-            created_by_name=created_by_name
-            # attachments=attachments
+            created_by_name=created_by_name,
+            s3_url=s3_url,
+            attachments=attachments
         )
 
         return redirect('group_detail',group_id=group_id)  
 
+# def upload_file_to_s3(file_obj):
+#     s3 = boto3.client('s3',
+#                       aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
+#                       aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY)
 
+#     s3.upload_fileobj(file_obj, settings.AWS_STORAGE_BUCKET_NAME, file_obj.name)
+
+#     s3_url = f"https://{settings.AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/{file_obj.name}"
+
+#     return s3_url
     
 def fetch_groups(request):
     group_table_data = Group.objects.all()
@@ -153,3 +170,47 @@ def my_tasks(request):
                 break
 
     return render(request, 'myTask/task_detail.html', {'task_data': tasks_assigned_to_curr_user,'user_id':curr_user_id})
+
+def update_task(request,task_id):
+    task = Task.objects.get(pk=task_id) 
+
+    if request.method == 'POST':
+        task_brief = request.POST.get('task_brief')
+        description = request.POST.get('description')
+        assigned_to = request.POST.getlist('selected_member')
+        due_date = request.POST.get('due_date')
+        priority = request.POST.get('priority')
+        status = request.POST.get('status')
+        # labels = request.POST.get('labels')
+        groupId = task.group_id
+        created_by = request.user.id
+        created_by_name = request.user.username
+        attachments = request.FILES.get('file')
+        s3_url = 'NA'
+
+        # if attachments:
+        #     s3_url = upload_file_to_s3(attachments)
+         
+
+        task.task_brief = task_brief
+        task.description = description
+        task.assigned_to = assigned_to
+        task.due_date = due_date
+        task.priority = priority
+        task.status = status
+        # task.labels = labels
+        task.group_id = groupId
+        task.created_by = created_by
+        task.created_by_name = created_by_name
+        task.s3_url = s3_url
+        task.attachments = attachments
+
+        task.save()
+        
+        return redirect('myTask')  
+    else:
+        return render(request, 'task/edit_task.html', {'task_data': task})
+
+def edit_task(request,task_id):
+    task = Task.objects.get(pk=task_id) 
+    return render(request, 'task/edit_task.html', {'task_data': task})
