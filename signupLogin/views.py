@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
 from django.contrib.auth.forms import AuthenticationForm
+from ses_mail.send_ses import SESEmailService
 
 @login_required
 def home(request):
@@ -23,6 +24,8 @@ def authenticationView(request):
         form = UserCreationForm(request.POST or None )
         if form.is_valid():
             email = request.POST.get('email')
+            #send verification email to user from amazon SES
+            SESEmailService.Identify_user_email(email)
             user = form.save(commit=False) 
             user.email = email 
             if 'adminUserCheckbox' in request.POST:
