@@ -4,29 +4,97 @@
   {% bootstrap_css %}
   {% bootstrap_javascript %}
   {% load static %}
-   <link rel="stylesheet" href="{% static 'global.css' %}">  
+  <link rel="stylesheet" href="{% static 'global.css' %}">  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Truculenta:opsz,wght@12..72,100..900&display=swap"
+      rel="stylesheet">    
     </head>
     <body>
         {% include 'navbar.html' %}
         <!-- <a  href="/creategroup" class="btn btn-primary">Create Group</a> -->
         <div class="container mt-5">
+            
             <div class="row mt-2">
                 <img class="col-sm-6" src="{% static 'images/tasks.png' %}" >
                 <div class="col-sm-6">
-                   <div class="mb-3">
+                    <h5 class="task-heading mb-4">Manage tasks with ease.</h5>
+                    <div class="row justify-content-center">
+                        <div class="card mb-5 column align-items-center" style="flex-direction: row;" >
+                          <img
+                            class=""
+                            src="{% static 'images/1.png' %}"
+                            alt="Card image cap"
+                            height="100px"
+                            width="100px"
+                          />
+                          <div class="column justify-content-center py-2 align-items-center">
+                            <h5 class="card-title text-center">Groups</h5>
+                            <p class="card-text text-center">
+                              Build a team group to organize tasks based on criterias such as project, team, priority, or status.
+                            </p>
+                            <div class="text-center">
+                                <a  href="/creategroup" class="btn btn-primary">Create Group</a>
+                            </div>
+                         
+                        </div>
+                        </div>
+                
+                        <div class="card mb-5 column align-items-center" style="flex-direction: row;" >
+                            <img
+                              class=""
+                              src="{% static 'images/2.png' %}"
+                              alt="Card image cap"
+                              height="100px"
+                              width="100px"
+                            />
+                            <div class="column justify-content-center py-2 align-items-center">
+                              <h5 class="card-title text-center">Show all groups</h5>
+                              <p class="card-text text-center">
+                               Check out all the groups that makes it easier to find and manage tasks within a larger context 
+                              </p>
+                              <div class="text-center">
+                                <a  href="/groups" class="btn btn-primary">Go to Groups</a>
+                            </div>
+                           
+                          </div>
+                          </div>
+                
+                          <div class="card mb-4 column align-items-center" style="flex-direction: row;" >
+                            <img
+                              class=""
+                              src="{% static 'images/3.png' %}"
+                              alt="Card image cap"
+                              height="100px"
+                              width="100px"
+                            />
+                            <div class="column justify-content-center py-2 align-items-center">
+                              <h5 class="card-title text-center">My Tasks</h5>
+                              <p class="card-text text-center">
+                                Tasks help to break down larger goals or projects into smaller, actionable steps.  
+                              </p>
+                              <div class="text-center">
+                                <a  href="/myTask" class="btn btn-primary">Go to my tasks</a>
+                            </div>
+                           
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                   <!-- <div class="mb-3">
                     Groups help organize tasks based on different criteria such as project, team, priority, or status. 
                     This makes it easier to find and manage tasks within a larger context.
                     Groups allow teams to collaborate more effectively by providing a shared space where members can access and work on tasks together. It facilitates communication and coordination among team members.
                    </div> 
                   <a  href="/creategroup" class="btn btn-primary mb-5">Create Group</a>
+                  <a  href="/groups" class="btn btn-primary mb-5">Go to Groups</a>
 
                   <div class="mb-3">
                     Tasks help to break down larger goals or projects into smaller, actionable steps. By defining specific tasks, individuals and teams gain clarity on what needs to be done to achieve their objectives.
                     Tasks allow for the prioritization of work. By assigning deadlines, setting due dates, and categorizing tasks based on importance and urgency, individuals can focus their efforts on the most critical activities.
                   </div>
-                  <a  href="/creategroup" class="btn btn-primary">Create Tasks</a>
-
-                </div>
+                  <a  href="/myTask" class="btn btn-primary">Go to my tasks</a>
+                </div> -->
             </div>
         </div>
         {% include 'footer.html' %}

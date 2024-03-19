@@ -1,17 +1,17 @@
-<div>
+<div style="padding: 24px;">
   <table class="table table-hover">
     <thead>
       <tr>
         <th scope="col"> Group ID</th>
         <th scope="col">Created by</th>
-        <th scope="col">group Name</th>
+        <th scope="col">Group Name</th>
         {% comment %} <th scope="col">Description</th> {% endcomment %}
-        <th scope="col">Creation date & time</th>
-        {% comment %} <th scope="col">group members</th> {% endcomment %}
-        <th scope="col">visibility</th>
+        <th scope="col">Creation Date & Time</th>
+        {% comment %} <th scope="col">Group Members</th> {% endcomment %}
+        <th scope="col">Visibility</th>
       </tr>
     </thead>
-    <tbody>
+    <tbody >
       {% for group in groups_data %}
        <tr onclick="window.location='/group/{{ group.group_id }}/'" style="cursor:pointer;">
         <td>{{ group.group_id }}</td>
