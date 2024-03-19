@@ -11,6 +11,7 @@ import json
 from django.shortcuts import render, redirect, get_object_or_404
 # import boto3
 from django.conf import settings
+from ses_mail.send_ses import SESEmailService
 
 def landing_page(request):
     return render(request, 'landing-page.html')
@@ -81,8 +82,8 @@ def add_task(request, group_id):
         attachments = request.FILES.get('file')
         s3_url = None
 
-        if attachments:
-            s3_url = upload_file_to_s3(attachments)
+        # if attachments:
+        #     s3_url = upload_file_to_s3(attachments)
          
 
         Task.objects.create(

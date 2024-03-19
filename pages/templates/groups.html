@@ -8,9 +8,20 @@
     </head>
     <body>
         {% include 'navbar.html' %}
-        <div class="p-4">
+    <div class="row">
+        <div class="p-4 col-10 groups-heading ">
+           
+            <p> <img
+                class=""
+                src="{% static 'images/group-page.png' %}"
+                alt="Card image cap"
+                width='50px'
+              /><span class="group-heading">Group Information:</span> Manage and view details of your group.</p>
+        </div>
+        <div class="p-4 col-2">
         <a  href="/creategroup" class="btn btn-primary">Create Group</a>
         </div>
+    </div>
 
         {%include 'group-table.html'  %}
     </body>
