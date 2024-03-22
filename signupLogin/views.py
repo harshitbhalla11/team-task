@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
 from django.contrib.auth.forms import AuthenticationForm
 from ses_mail.send_ses import SESEmailService
-
+from django.conf import settings
 @login_required
 def home(request):
     return render(request, 'home-page.html', {})
@@ -25,8 +25,9 @@ def authenticationView(request):
         if form.is_valid():
             email = request.POST.get('email')
             #send verification email to user from amazon SES
-            SESEmailService.Identify_user_email(email)
             user = form.save(commit=False) 
+            ses_email_service = SESEmailService(settings.AWS_ACCESS_KEY_ID, settings.AWS_SECRET_ACCESS_KEY) 
+            ses_email_service.Identify_user_email(email) 
             user.email = email 
             if 'adminUserCheckbox' in request.POST:
                 user.is_staff = True
