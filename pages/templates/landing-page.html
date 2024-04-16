@@ -1,15 +1,84 @@
 <html>
-    <head>
-        <title>`substitute(Filename('', 'Page Title'), '^.', '\u&', '')`</title>
-        {% load bootstrap5 %}
-        {% bootstrap_css %}
-        {% bootstrap_javascript %}
-        {% load static %}
-         <link rel="stylesheet" href="{% static 'global.css' %}">  
+  <head>
+    {% load bootstrap5 %} {% bootstrap_css %} {% bootstrap_javascript %} {% load static %}
+    <link rel="stylesheet" href="{% static 'global.css' %}" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Madimi+One&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    {% include 'navbar.html' %}
+    <div class="page-view">
+      <div class="row">
         
-    </head>
-    <body>
-        {% include 'navbar.html' %}
-        landing
-    </body>
+        <div class=" col-md-6 text-container">
+            <img
+        class="nav-logo ml-3"
+        src="{% static 'images/teamtalklogo.png' %}"
+        alt="logo"
+      />
+          <h1 class="image-text">Team Task</h1>
+        </div>
+        <div class="col-md-6">
+          <img
+            class="landing-img"
+            src="{% static 'images/landing-img.png' %}"
+            alt="Card image cap"
+          />
+        </div>
+      </div>
+
+      <p class="text-center heading-font">Why Team Task ?</p>
+      <div class="row justify-content-center py-5">
+        <div class="card mx-5" style="width: 18rem">
+          <img
+            class="card-img-top card-images-home"
+            src="{% static 'images/1.png' %}"
+            alt="Card image cap"
+          />
+          <div class="card-body">
+            <h5 class="card-title text-center">Project Managment</h5>
+            <p class="card-text text-center">
+              Build a team group, keep track of tasks and team members alligned
+              with TeamTalk
+            </p>
+          </div>
+        </div>
+
+        <div class="card mx-5" style="width: 18rem">
+          <img
+            class="card-img-top card-images-home"
+            src="{% static 'images/2.png' %}"
+            alt="Card image cap"
+          />
+          <div class="card-body">
+            <h5 class="card-title text-center">Brainstorming</h5>
+            <p class="card-text text-center">
+              Empower your team members to be productive and unleash creative
+              ideas by working with team.
+            </p>
+          </div>
+        </div>
+
+        <div class="card mx-5" style="width: 18rem">
+          <img
+            class="card-img-top card-images-home"
+            src="{% static 'images/3.png' %}"
+            alt="Card image cap"
+          />
+          <div class="card-body">
+            <h5 class="card-title text-center">Task Management</h5>
+            <p class="card-text text-center">
+              Manage multiple task at a single place.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% include 'footer.html' %}
+  </body>
 </html>

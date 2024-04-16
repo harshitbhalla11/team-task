@@ -11,9 +11,11 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+# BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # Quick-start development settings - unsuitable for production
@@ -25,14 +27,19 @@ SECRET_KEY = 'django-insecure-px(h#&z$posg%3b+b_l7-$xbww3froyw04p#)oq11zee_bnsm7
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['43ac255f5ef744a68cc5abb112f0578f.vfs.cloud9.eu-west-1.amazonaws.com', 
+                'x123208813-cpp-env.eba-iu4bhvge.eu-west-1.elasticbeanstalk.com']
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://43ac255f5ef744a68cc5abb112f0578f.vfs.cloud9.eu-west-1.amazonaws.com",
+]
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'signupLogin',
     'pages',
-    'registeration',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -40,6 +47,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'bootstrap5',
+    'django_bootstrap_icons',
+    'storages'
 ]
 
 MIDDLEWARE = [
@@ -57,7 +66,8 @@ ROOT_URLCONF = 'team_talk.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'templates'),            ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -79,8 +89,7 @@ WSGI_APPLICATION = 'team_talk.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),    }
 }
 
 
@@ -121,12 +130,30 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 STATICFILES_DIRS = [
-    BASE_DIR / "staticfiles"
-]
+ os.path.join(BASE_DIR, "staticfiles")
+ ]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+LOGIN_REDIRECT_URL = "pages:home-page"
+LOGOUT_REDIRECT_URL = "landing-page"
+LOGIN_URL = '/home'
+
+
+# AWS S3 settings
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+AWS_ACCESS_KEY_ID = 'AKIAYLQ4JPIBJM6RCH2N'
+AWS_SECRET_ACCESS_KEY = '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'
+AWS_STORAGE_BUCKET_NAME = 'x23208813'
+AWS_S3_REGION_NAME = 'eu-north-1' 
+
+AWS_S3_FILE_OVERWRITE = False
+AWS_DEFAULT_ACL = None
+AWS_S3_VERIFY = True
+AWS_S3_SIGNATURE_NAME = 's3v4'
+MEDIA_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/'
 

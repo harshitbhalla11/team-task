@@ -1,0 +1,36 @@
+<html>
+<head>
+  <title>{% block title %}{% endblock %}</title>
+  {% load bootstrap5 %}
+  {% bootstrap_css %}
+  {% bootstrap_javascript %}
+  {% load static %}
+   <link rel="stylesheet" href="{% static 'global.css' %}">  
+</head>
+
+
+<body>
+    {% include 'navbar.html' %}
+    <div class="reg-container">
+        <h1 class="reg-heading">Register</h1>
+        <form method="POST">
+            <div class="mb-3">
+                <label for="email" class="form-label">Email address</label>
+                <input type="email" class="form-control" id="email" placeholder="Email address" name="email" required>
+                <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+            </div>
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            <div class="form-check form-switch admin-checkbox-container">
+                <input class="form-check-input admin-checkbox" type="checkbox" name="adminUserCheckbox" id="adminUserCheckbox">
+                <label class="form-check-label label-checkbox" for="flexSwitchCheckDefault">Make Admin user.</label>
+              </div>
+            {% buttons %}
+                <button type="submit" class="btn btn-primary submit-btn">Submit</button>
+            {% endbuttons %}    
+        </form>
+</div>  
+{% include 'footer.html' %}
+
+</body>
+</html>

@@ -1,0 +1,65 @@
+<html>
+    <head>
+         {% load bootstrap5 %}
+  {% bootstrap_css %}
+  {% bootstrap_javascript %}
+  {% load static %}
+   <link rel="stylesheet" href="{% static 'global.css' %}">  
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Truculenta:opsz,wght@12..72,100..900&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <div class="container mt-5">
+            <div class="card">
+              <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                <span>{{ task.task_brief }}</span>
+                <div>
+                    <a href="/edit_task/{{ task.task_id }}" class="btn btn-info">Update</a>
+                </div>
+            </div>
+            
+              <div class="card-body">
+                <div class="row mt-2">
+                    <div class="col-sm-8" style="color: red">{{task.priority}}</div>
+                   
+                    <div class="row justify-content-end col-sm-4">
+                      {% for assigned_to_item in task.assigned_to %}
+                        <div class="col-auto">
+                          <div class="circle" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ assigned_to_item.username }}">
+                             
+                                  {{ assigned_to_item.username| slice:"0:1"| upper  }}
+                        
+                          </div>
+                        </div>
+                        {% endfor %}
+                      </div>
+                  </div>
+                
+                <div class="row mt-2">
+                  <div class="col-sm-12">{{ task.description }}</div>
+                </div>
+                <div class="row mt-3">
+                  <div class="col-sm-2"><strong>Due Date:</strong></div>
+                  <div class="col-sm-8">{{ task.due_date }}</div>
+                  <div class="col-sm-2" style="text-align: right; color: green">{{task.status}}</div>
+                </div>
+              </div>
+            </div>
+          </div>        
+        <script>
+
+        let taskData = null;
+        let group_id = "{{ group_id }}";  
+          //loads the data for all the task in this group.
+          fetch(`/fetch_group_task/${group_id}/`)
+            .then(response => response.json())
+            .then(data => {
+              taskData = data;
+                console.log(taskData);
+            })
+
+
+        </script>
+    </body>
+</html>

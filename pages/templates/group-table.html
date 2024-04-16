@@ -1,0 +1,28 @@
+<div style="padding: 24px;">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col"> Group ID</th>
+        <th scope="col">Created by</th>
+        <th scope="col">Group Name</th>
+        {% comment %} <th scope="col">Description</th> {% endcomment %}
+        <th scope="col">Creation Date & Time</th>
+        {% comment %} <th scope="col">Group Members</th> {% endcomment %}
+        <th scope="col">Visibility</th>
+      </tr>
+    </thead>
+    <tbody >
+      {% for group in groups_data %}
+       <tr onclick="window.location='/group/{{ group.group_id }}/'" style="cursor:pointer;">
+        <td>{{ group.group_id }}</td>
+        <td>{{ group.admin_user_name }}</td>
+        <td>{{ group.group_name }}</td>
+        {% comment %} <td>{{ group.description }}</td> {% endcomment %}
+        <td>{{ group.create_date_time }}</td>
+        {% comment %} <td>{{ group.group_members }}</td> {% endcomment %}
+        <td>{{ group.visibility_type }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>

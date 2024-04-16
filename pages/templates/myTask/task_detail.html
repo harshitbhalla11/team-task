@@ -1,0 +1,25 @@
+<html>
+    <head>
+         {% load bootstrap5 %}
+  {% bootstrap_css %}
+  {% bootstrap_javascript %}
+  {% load static %}
+   <link rel="stylesheet" href="{% static 'global.css' %}">  
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+   <link href="https://fonts.googleapis.com/css2?family=Truculenta:opsz,wght@12..72,100..900&display=swap"
+       rel="stylesheet">    
+</head>
+    <body>
+        {% include 'navbar.html' %}
+        <div class="container page-container mt-5">
+            <h5 class="task-heading">My Task:</h5>
+
+            {% for task in task_data %}   
+            {% include 'group-tasks.html' %}
+            {% endfor %}
+        </div>
+        {% include 'footer.html' %}
+
+    </body>
+</html>
