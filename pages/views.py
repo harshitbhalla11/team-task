@@ -15,6 +15,8 @@ from ses_mail.send_ses import SESEmailService
 from django.db.models import Q
 from django.contrib.auth.models import User
 
+ses_email_service = SESEmailService(settings.AWS_ACCESS_KEY_ID, settings.AWS_SECRET_ACCESS_KEY)
+
 
 def landing_page(request):
     return render(request, 'landing-page.html')
@@ -147,7 +149,30 @@ def fetch_group_data(request, group_id):
     return JsonResponse({'group_data':group_dict}, safe= False)
 
 def group_delete(request, group_id):
+    current_user = request.user
+    deleted_by_username = current_user.username
+
     group = Group.objects.get(pk=group_id)
+    group_members_json = group.group_members[0]
+    group_members_list = json.loads(group_members_json)
+
+    group_member_emails = []
+    for member_info in group_members_list:
+        user_id = member_info['id'] 
+        user = User.objects.get(pk=user_id)
+        email = user.email
+        if email and len(email) > 0:  
+            group_member_emails.append(email)
+    print(group_member_emails)
+
+    ses_email_service.send_email_ses(
+            sender_mail='ses.service23208813@gmail.com',
+            recipient_mail=email,
+            subject='Group Deleted',
+            body=f'Group {group.group_name} has been deleted by {deleted_by_username}'
+        )
+       
+
     group.delete()
     return redirect('fetch_groups')
 
