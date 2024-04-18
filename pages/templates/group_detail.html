@@ -58,15 +58,21 @@
 
 
                     <div class="row d-flex justify-content-center mt-3">
-                        <div class="col-2 d-flex justify-content-center">
-                            <a class="btn btn-primary" href="/createtask/{{group_data.group_id}}">Create Task</a>
-                        </div>
-                        <div class="col-2 d-flex justify-content-center">
-                            <a href="/group_edit/{{ group_data.group_id }}" class="btn btn-warning ">Edit Group</a>
-                        </div>
-                        <div class="col-2 d-flex justify-content-center">
-                            <button onclick="deleteGroup()" class="btn btn-danger ">Delete Group</button>
-                        </div>
+                        {% if request.user.is_staff %}
+                            <div class="col-2 d-flex justify-content-center">
+                                <a class="btn btn-primary" href="/createtask/{{group_data.group_id}}">Create Task</a>
+                            </div>
+                            <div class="col-2 d-flex justify-content-center">
+                                <a href="/group_edit/{{ group_data.group_id }}" class="btn btn-warning ">Edit Group</a>
+                            </div>
+                            <div class="col-2 d-flex justify-content-center">
+                                <button onclick="deleteGroup()" class="btn btn-danger ">Delete Group</button>
+                            </div>
+                         {% endif %}
+                         {% if not request.user.is_staff %}
+                         <span class="nav-link  user-type-details" href="#">Only Admin user can create a task <span class="separator">/</span> Edit or delete a group</span>
+                         {% endif %}
+                        
                     </div>
                 </div>
                 </div>

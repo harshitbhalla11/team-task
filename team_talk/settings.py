@@ -28,7 +28,9 @@ SECRET_KEY = 'django-insecure-px(h#&z$posg%3b+b_l7-$xbww3froyw04p#)oq11zee_bnsm7
 DEBUG = True
 
 ALLOWED_HOSTS = ['43ac255f5ef744a68cc5abb112f0578f.vfs.cloud9.eu-west-1.amazonaws.com', 
-                'x123208813-cpp-env.eba-iu4bhvge.eu-west-1.elasticbeanstalk.com']
+                'x123208813-cpp-env.eba-iu4bhvge.eu-west-1.elasticbeanstalk.com',
+                '127.0.0.1:8080',
+                '127.0.0.1']
 
 CSRF_TRUSTED_ORIGINS = [
     "https://43ac255f5ef744a68cc5abb112f0578f.vfs.cloud9.eu-west-1.amazonaws.com",

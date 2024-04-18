@@ -17,6 +17,7 @@
 
 .login-button{
   margin-right: 20px;
+  padding-top: 8px;
 }
 
 .register-button{
@@ -390,6 +391,32 @@ border-left: 5px solid black;
   min-width: 120px;
 }
 
-
+.user-type{
+  color: rgb(154, 221, 151)!important;
+  border: 2px solid rgb(154, 221, 151)!important;
+  border-radius: 25px;
+}
+.role-render{
+  font-size: 20px;
+  font-weight: 700;
+  color: #111174;
+  margin-bottom: 40px;
+  border: 2px solid black;
+  display: inline;
+  width: 400px;
+  text-align: center;
+}
+.group-info{
+  color: #111174;
+  font-size: 20px;
+}
+.user-type-details{
+  color: #4d4dc1;
+  text-align: center;
+}
+.separator{
+  font-size: 20px;
+  color: #000000;
+}
 
 

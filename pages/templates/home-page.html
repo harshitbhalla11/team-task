@@ -12,7 +12,6 @@
     </head>
     <body>
         {% include 'navbar.html' %}
-        <!-- <a  href="/creategroup" class="btn btn-primary">Create Group</a> -->
         <div class="container mt-5">
             
             <div class="row mt-2">
@@ -36,7 +35,12 @@
                               Build a team group to organize tasks based on criterias such as project, team, priority, or status.
                             </p>
                             <div class="">
-                                <a  href="/creategroup" class="btn btn-primary">Create Group</a>
+                              {% if request.user.is_staff %}
+                              <a  href="/creategroup" class="btn btn-primary">Create Group</a>
+                              {% endif %}
+                              {% if not request.user.is_staff %}
+                              <span class="group-info">Only Admin user can create a group </span>
+                              {% endif %}
                             </div>
                          
                         </div>

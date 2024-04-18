@@ -12,6 +12,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 # import boto3
 from django.conf import settings
 from ses_mail.send_ses import SESEmailService
+from django.db.models import Q
+from django.contrib.auth.models import User
+
 
 def landing_page(request):
     return render(request, 'landing-page.html')
@@ -115,7 +118,10 @@ def add_task(request, group_id):
 #     return s3_url
     
 def fetch_groups(request):
-    group_table_data = Group.objects.all()
+    current_user_id = str(request.user.id)
+    search_string = f':{current_user_id},'
+    group_table_data = Group.objects.filter(Q(visibility_type='public') |Q(group_members__icontains=search_string))
+    
     return render(request, 'groups.html', {'groups_data': group_table_data})
 
 

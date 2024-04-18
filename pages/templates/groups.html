@@ -19,8 +19,16 @@
               /><span class="group-heading">Group Information:</span> Manage and view details of your group.</p>
         </div>
         <div class="p-4 col-2">
-        <a  href="/creategroup" class="btn btn-primary">Create New Group</a>
+            {% if request.user.is_staff %}
+            <a href="/creategroup" class="btn btn-primary">Create New Group</a>
+            {% endif %}
         </div>
+        {% if not request.user.is_staff %}
+        <div class='d-flex justify-content-center'>
+        <span class="role-render">Only Admins can create groups</span>
+        </div>
+        {% endif %}
+
     </div>
 
         {%include 'group-table.html'  %}
