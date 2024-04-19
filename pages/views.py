@@ -69,14 +69,16 @@ def update_group(request, group_id):
 
 
 def add_task(request, group_id):
+    current_user = request.user
+    current_user_username = current_user.username
+
     if request.method == 'POST':
         task_brief = request.POST.get('task_brief')
         description = request.POST.get('description')
-        assigned_to = request.POST.getlist('selected_member')
+        assigned_to_details = request.POST.getlist('selected_member')
         due_date = request.POST.get('due_date')
         priority = request.POST.get('priority')
         status = request.POST.get('status')
-        # labels = request.POST.get('labels')
         groupId = group_id
         created_by = request.user.id
         created_by_name = request.user.username
@@ -87,17 +89,36 @@ def add_task(request, group_id):
         Task.objects.create(
             task_brief=task_brief,
             description=description,
-            assigned_to=assigned_to,
+            assigned_to=assigned_to_details,
             due_date=due_date,
             priority=priority,
             status=status,
-            # labels=labels,
             group_id=groupId,
             created_by=created_by,
             created_by_name=created_by_name,
             s3_url=s3_url,
             attachments=attachments
         )
+        group_members_json = assigned_to_details[0]
+        assigned_members_list = json.loads(group_members_json)
+
+        assigned_member_emails = []
+        for member_info in assigned_members_list:
+            user_id = member_info['id'] 
+            user = User.objects.get(pk=user_id)
+            email = user.email
+            # Ensure email is not empty
+            if email and len(email) > 0:
+                assigned_member_emails.append(email)
+
+        # Send email notifications to assigned members using SESEmailService            
+        for email in assigned_member_emails:    
+            ses_email_service.send_email_ses(
+            sender_mail='ses.service23208813@gmail.com',
+            recipient_mail=email,
+            subject = f'Team Task/New Task Assigned: {task_brief}',
+            body = f"Dear User,\n\nA new task '{task_brief}' has been assigned to you in the group_id: {groupId} by Admin {current_user_username}."
+            )
 
         return redirect('group_detail',group_id=group_id)  
 
