@@ -3,20 +3,16 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.contrib.auth.models import User
 from .models import Group
-from django.core.serializers import serialize
 from django.shortcuts import render, redirect
 from .models import Group, Task
 from django.forms.models import model_to_dict
 import json
-from django.shortcuts import render, redirect, get_object_or_404
-# import boto3
 from django.conf import settings
 from ses_mail.send_ses import SESEmailService
 from django.db.models import Q
 from django.contrib.auth.models import User
 
 ses_email_service = SESEmailService(settings.AWS_ACCESS_KEY_ID, settings.AWS_SECRET_ACCESS_KEY)
-
 
 def landing_page(request):
     return render(request, 'landing-page.html')
@@ -86,9 +82,6 @@ def add_task(request, group_id):
         created_by_name = request.user.username
         attachments = request.FILES.get('file')
         s3_url = None
-
-        # if attachments:
-        #     s3_url = upload_file_to_s3(attachments)
          
 
         Task.objects.create(
@@ -108,16 +101,6 @@ def add_task(request, group_id):
 
         return redirect('group_detail',group_id=group_id)  
 
-# def upload_file_to_s3(file_obj):
-#     s3 = boto3.client('s3',
-#                       aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
-#                       aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY)
-
-#     s3.upload_fileobj(file_obj, settings.AWS_STORAGE_BUCKET_NAME, file_obj.name)
-
-#     s3_url = f"https://{settings.AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/{file_obj.name}"
-
-#     return s3_url
     
 def fetch_groups(request):
     current_user_id = str(request.user.id)
@@ -156,6 +139,7 @@ def group_delete(request, group_id):
     group_members_json = group.group_members[0]
     group_members_list = json.loads(group_members_json)
 
+    # make list of group member emails
     group_member_emails = []
     for member_info in group_members_list:
         user_id = member_info['id'] 
@@ -163,15 +147,14 @@ def group_delete(request, group_id):
         email = user.email
         if email and len(email) > 0:  
             group_member_emails.append(email)
-    print(group_member_emails)
 
-    ses_email_service.send_email_ses(
+    for email in group_member_emails:
+        ses_email_service.send_email_ses(
             sender_mail='ses.service23208813@gmail.com',
             recipient_mail=email,
-            subject='Group Deleted',
+            subject='Team Task: Group Deleted',
             body=f'Group {group.group_name} has been deleted by {deleted_by_username}'
         )
-       
 
     group.delete()
     return redirect('fetch_groups')
@@ -220,8 +203,6 @@ def update_task(request,task_id):
         attachments = request.FILES.get('file')
         s3_url = 'NA'
 
-        # if attachments:
-        #     s3_url = upload_file_to_s3(attachments)
          
 
         task.task_brief = task_brief
