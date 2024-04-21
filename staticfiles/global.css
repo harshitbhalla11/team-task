@@ -5,6 +5,13 @@
     width: 47px;
     margin-left: 20px;
 }
+
+.home-logo{
+  transform: scale(1.3);
+  width: 200px;
+  margin-left: 20px;
+
+}
 .nav-content-container{
   margin-left: 70px;
   font-size: large;
@@ -123,14 +130,15 @@
 }
 
 .image-text {
-  
+  margin-top: 100px;
   color: white; 
   background-color: #111174;
   padding: 5px; 
   border-radius: 50px;
   font-size: 40px;
   text-align: center;
-  max-width: 200px;
+  max-width: 500px;  
+  margin-left: 100px;  
 
 }
 .text-container{
