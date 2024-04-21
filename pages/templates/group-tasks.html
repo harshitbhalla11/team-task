@@ -21,7 +21,7 @@
             
               <div class="card-body">
                 <div class="row mt-2">
-                    <div class="col-sm-8" style="color: red">{{task.priority}}</div>
+                    <div class="col-sm-8 {{task.priority}}" >{{task.priority}}</div>
                    
                     <div class="row justify-content-end col-sm-4">
                       {% for assigned_to_item in task.assigned_to %}
@@ -42,7 +42,7 @@
                 <div class="row mt-3">
                   <div class="col-sm-2"><strong>Due Date:</strong></div>
                   <div class="col-sm-8">{{ task.due_date }}</div>
-                  <div class="col-sm-2" style="text-align: right; color: green">{{task.status}}</div>
+                  <div class="col-sm-2 {{task.status}}" style="text-align: right;">{{task.status}}</div>
                 </div>
               </div>
             </div>
