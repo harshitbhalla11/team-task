@@ -59,7 +59,8 @@
         <div  class="row mt-5">
             <h5 class="col-3">Priority</h5>
             <div class="btn-group col-6 prority-group" role="group" aria-label="Priority Selector">
-                <input type="hidden" id="priorityInput" name="priority" value="{{ task_data.priority }}">                <button type="button" onclick="changePriority('low')" class="btn-priority low-priority active" id="priorityLow">Low</button>
+                <input type="hidden" id="priorityInput" name="priority" value="{{ task_data.priority }}">                
+                <button type="button" onclick="changePriority('low')" class="btn-priority low-priority " id="priorityLow">Low</button>
                 <button type="button" onclick="changePriority('medium')" class="btn-priority" id="priorityMedium">Medium</button>
                 <button type="button" onclick="changePriority('high')" class="btn-priority high-priority " id="priorityHigh">High</button>
 
@@ -68,22 +69,22 @@
         <div  class="row mt-5">
             <h5 class="col-3">Status</h5>
             <div class="btn-group col-6 " role="group" aria-label="Priority Selector">
-                <input type="hidden" id="statusInput" name="status" value="{{ task_data.status }}">
-                <button type="button" onclick="changeStatus('not-started')" class="btn-status not-started-status  active" id="notStarted">Not Started</button>
+                <input type="hidden" id="statusInput" name="status" value="not-started">
+                <button type="button" onclick="changeStatus('not-started')" class="btn-status not-started-status " id="notStarted">Not Started</button>
                 <button type="button" onclick="changeStatus('in-progress')" class="btn-status in-progress-status border-primary" id="inProgress">In Progress</button>
                 <button type="button" onclick="changeStatus('completed')" class="btn-status completed-status " id="completed">Completed</button>
             </div>
         </div>
          
 
-        {% comment %} <div class="row mt-5">
+        <div class="row mt-5">
             <h5 class="col-3">Upload File(s3)</h5>
 
             <input class="col-6" type="file" name="s3-file"> 
-        </div> {% endcomment %}
+        </div>
 
         <div class="create-submit-container mt-5">
-            <button type="submit" class="btn btn-primary mt-2 create-group-submit">Create Task</button>
+            <button type="submit" class="btn btn-primary mt-2 create-group-submit">Update Task</button>
         </div> 
 
    
@@ -95,6 +96,7 @@
             let userList= [];
             let selectedUsers= [];
             let group_id= {{ group_id }};
+            let task_id= {{ task_id }};
             fetch(`/fetch_group_data/${group_id}/`)
             .then(response => response.json())
             .then(data => {
@@ -108,7 +110,24 @@
                 addMembersToList()
                
             });
-            
+
+            fetch(`/fetch_assigned_data/${task_id}/`)
+            .then(response => response.json())
+            .then(data => {
+                parsedMember=JSON.parse(data.task_data);
+                priority_data=data.priority;
+                status_data=(data.status);
+                console.log(parsedMember, "taskdata")
+                changePriority(priority_data);
+                changeStatus(status_data);
+                parsedMember.forEach(member => {
+                    selectedUsers.push(member);
+                    
+                    updateselectedGroupMember();
+                    const selectedUsersjson = JSON.stringify(selectedUsers);
+                            document.getElementById('selected_member').value = selectedUsersjson;
+                });
+            });
 
             function addMembersToList() {
                 const userDropdownElement = document.getElementById('userDropdown');
@@ -175,7 +194,7 @@
                 var priorityInput = document.getElementById("priorityInput");
                 priorityInput.value = priority.toLowerCase();
                
-                console.log(this.priority, "priority")
+                console.log(priority, "priority")
                 var buttons = document.querySelectorAll('.btn-priority');
                 buttons.forEach(function(button) {
                     button.classList.remove('active');

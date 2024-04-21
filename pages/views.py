@@ -152,6 +152,14 @@ def fetch_group_data(request, group_id):
     group_dict = model_to_dict(group)
     return JsonResponse({'group_data':group_dict}, safe= False)
 
+def fetch_assigned_data(request, task_id):
+    task = Task.objects.get(pk=task_id)
+    assigned_data = task.assigned_to
+    status=task.status
+    priority=task.priority
+
+    return JsonResponse({'task_data':assigned_data, 'priority':priority,'status':status}, safe= False)
+
 def group_delete(request, group_id):
     current_user = request.user
     deleted_by_username = current_user.username
@@ -245,7 +253,7 @@ def update_task(request,task_id):
     else:
         return render(request, 'task/edit_task.html', {'task_data': task})
 
-def edit_task(request,task_id):
+def edit_task(request,task_id,group_id):
     task = Task.objects.get(pk=task_id) 
     print(task)
-    return render(request, 'task/edit_task.html', {'task_data': task})
+    return render(request, 'task/edit_task.html', {'task_data': task, 'task_id':task_id,'group_id':group_id})
