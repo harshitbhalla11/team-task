@@ -116,7 +116,7 @@
           type="hidden"
           name="selected_users"
           id="selected_users_input"
-          value=""
+          value="none"
         />
       </form>
     </div>
@@ -138,7 +138,6 @@
                 console.log(selectedUsers, "selectedUsers")
           
           document.getElementById("group_name").value = data.group_data.group_name;
-          document.getElementById("selected_users_input").value = JSON.stringify(data.group_data.group_members[0]);
           document.getElementById("public").checked = data.group_data.visibility_type === "public";
           document.getElementById("private").checked = data.group_data.visibility_type === "private";
           updateselectedGroupMember()
@@ -193,6 +192,7 @@
       }
     
       function updateselectedGroupMember() {
+        console.log("intial run")
         const selectedGroupMember = document.getElementById("selectedGroupMember");
         selectedGroupMember.innerHTML = "";
     

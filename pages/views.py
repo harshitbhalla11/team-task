@@ -57,7 +57,7 @@ def update_group(request, group_id):
         group.visibility_type = visibility_type
         group.description = description
         
-        if group_members:
+        if group_members != "none" and group_members != ["none"]:
             group.group_members = group_members
 
         group.save()
