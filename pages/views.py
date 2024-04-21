@@ -247,4 +247,5 @@ def update_task(request,task_id):
 
 def edit_task(request,task_id):
     task = Task.objects.get(pk=task_id) 
+    print(task)
     return render(request, 'task/edit_task.html', {'task_data': task})

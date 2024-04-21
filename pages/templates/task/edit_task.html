@@ -25,14 +25,13 @@
             <div class="row form-group my-3">
                 <h5 class="col-md-3 text-center " for="group_name">Task brief:</h5>
                 <div class="col-md-8">
-                <input type="text" class="col-md-6 form-control" id="task_brief" name="task_brief" required>
+                    <input type="text" class="col-md-6 form-control" id="task_brief" name="task_brief" value="{{ task_data.task_brief }}" required>
                 </div>
             </div>
             <div class="row form-group my-3">
                 <h5 class="col-md-3 text-center" for="description">Task Description:</h5>
                 <div class="col-md-8">
-                    <textarea class="form-control" id="description" name="description" rows="4" required>{{task.description}}</textarea>
-                </div>
+                    <textarea class="form-control" id="description" name="description" rows="4" required>{{ task_data.description }}</textarea>                </div>
             </div>
             <div class="select-user-container my-3">
                 <input type="hidden" name="selected_member" id="selected_member" value="">
@@ -52,8 +51,7 @@
             <div class="row form-group my-3">
                 <h5 class="col-3">Due date:</h5>
                 <div class="col-md-8">
-                <input class="datepicker" type="date" id="due_date" name="due_date">
-                </div>
+                    <input class="datepicker" type="date" id="due_date" name="due_date" value="{{ task_data.due_date|date:'Y-m-d' }}">                </div>
         </div>
 
         <div id="selectedUsers"></div>
@@ -61,8 +59,7 @@
         <div  class="row mt-5">
             <h5 class="col-3">Priority</h5>
             <div class="btn-group col-6 prority-group" role="group" aria-label="Priority Selector">
-                <input type="hidden" id="priorityInput" name="priority" value="low">
-                <button type="button" onclick="changePriority('low')" class="btn-priority low-priority active" id="priorityLow">Low</button>
+                <input type="hidden" id="priorityInput" name="priority" value="{{ task_data.priority }}">                <button type="button" onclick="changePriority('low')" class="btn-priority low-priority active" id="priorityLow">Low</button>
                 <button type="button" onclick="changePriority('medium')" class="btn-priority" id="priorityMedium">Medium</button>
                 <button type="button" onclick="changePriority('high')" class="btn-priority high-priority " id="priorityHigh">High</button>
 
@@ -71,7 +68,7 @@
         <div  class="row mt-5">
             <h5 class="col-3">Status</h5>
             <div class="btn-group col-6 " role="group" aria-label="Priority Selector">
-                <input type="hidden" id="statusInput" name="status" value="not-started">
+                <input type="hidden" id="statusInput" name="status" value="{{ task_data.status }}">
                 <button type="button" onclick="changeStatus('not-started')" class="btn-status not-started-status  active" id="notStarted">Not Started</button>
                 <button type="button" onclick="changeStatus('in-progress')" class="btn-status in-progress-status border-primary" id="inProgress">In Progress</button>
                 <button type="button" onclick="changeStatus('completed')" class="btn-status completed-status " id="completed">Completed</button>
@@ -79,11 +76,11 @@
         </div>
          
 
-        <div class="row mt-5">
+        {% comment %} <div class="row mt-5">
             <h5 class="col-3">Upload File(s3)</h5>
 
             <input class="col-6" type="file" name="s3-file"> 
-        </div>
+        </div> {% endcomment %}
 
         <div class="create-submit-container mt-5">
             <button type="submit" class="btn btn-primary mt-2 create-group-submit">Create Task</button>
