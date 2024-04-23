@@ -13,15 +13,16 @@ from django.db.models import Q
 from django.contrib.auth.models import User
 
 ses_email_service = SESEmailService(settings.AWS_ACCESS_KEY_ID, settings.AWS_SECRET_ACCESS_KEY)
-
+# landingpage view
 def landing_page(request):
     return render(request, 'landing-page.html')
 
+# home page view
 def home_page(request):
     return render(request, 'home-page.html')
 
 
-
+# add group view
 def add_group(request):
     if request.method == 'POST':
         group_name = request.POST.get('group_name')
@@ -43,7 +44,7 @@ def add_group(request):
     else:
         return render(request, 'create_group.html')
     
-    
+# update group view
 def update_group(request, group_id):
     group = Group.objects.get(pk=group_id) 
 
@@ -67,7 +68,7 @@ def update_group(request, group_id):
         return render(request, 'group_edit.html', {'group_data': group})    
 
 
-
+#  add task view
 def add_task(request, group_id):
     current_user = request.user
     current_user_username = current_user.username
@@ -147,11 +148,14 @@ def group_edit(request, group_id):
     group = Group.objects.get(pk=group_id)  
     return render(request, 'group_edit.html', {'group_data': group})
 
+
+# fetches the  group data from the group table and returns it as a JsonResponse
 def fetch_group_data(request, group_id):
     group = Group.objects.get(pk=group_id)
     group_dict = model_to_dict(group)
     return JsonResponse({'group_data':group_dict}, safe= False)
 
+# fetches the  task data from the task table and returns it as a JsonResponse
 def fetch_assigned_data(request, task_id):
     task = Task.objects.get(pk=task_id)
     assigned_data = task.assigned_to
@@ -160,6 +164,7 @@ def fetch_assigned_data(request, task_id):
 
     return JsonResponse({'task_data':assigned_data, 'priority':priority,'status':status}, safe= False)
 
+# deletes the group
 def group_delete(request, group_id):
     current_user = request.user
     deleted_by_username = current_user.username
@@ -188,16 +193,18 @@ def group_delete(request, group_id):
     group.delete()
     return redirect('fetch_groups')
 
+# task view
 def createtask_view(request,group_id):
      group_data = Group.objects.get(pk=group_id)
      return render(request, 'task/createtask.html',{'group_id':group_id,'group_data':group_data})
+
 
 def fetch_group_task(request, group_id):
     tasks = Task.objects.filter(group_id=group_id).values()    
     tasks_list = list(tasks)
     return JsonResponse(tasks_list, safe=False)
 
-
+# returns the task data from the task table
 def my_tasks(request):
     tasks = Task.objects.all()
     for task in tasks:
@@ -215,6 +222,7 @@ def my_tasks(request):
 
     return render(request, 'myTask/task_detail.html', {'task_data': tasks_assigned_to_curr_user,'user_id':curr_user_id})
 
+# updates the task from the task table
 def update_task(request,task_id):
     task = Task.objects.get(pk=task_id) 
 
